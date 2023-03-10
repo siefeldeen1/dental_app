@@ -1,0 +1,127 @@
+.body_forsignup{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 42%;
+    padding: 20px;
+    background-color: #1A1C1E;
+    gap: 10px;
+    border-radius: 4px;
+}
+
+.label_inpt{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    color: white;
+    width: 100%;
+    gap:6px;
+}
+
+.input_body{
+width: 97%;
+height: 40%;
+display: flex;
+align-items: center;
+background-color: #3A3C3E;
+border-radius: 10px;
+padding: 0 7px;
+}
+
+.inp_class{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 13px 10px;
+}
+
+.inp_class:focus-visible{
+    outline: none;
+}
+
+.inp_class::placeholder{
+    color: #515255;
+
+}
+
+.form_class{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.submit_btn{
+    width: 50%;
+    background: linear-gradient(90deg, #BF7FFF 0%, #A667E4 100%);
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    padding: 10px;
+    color: white;
+}
+.buttons_holder{
+    display: flex;
+    align-items: center;
+   justify-content: center;
+    width: 100%;
+    gap:10px;
+}
+
+
+
+.google_btn{
+    display: flex;
+    align-items: center;
+    background: #dd4b39;
+    outline: none;
+    border: none;
+    color: white;
+    width: 185px;
+    padding: 10px 15px;
+    gap: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.6s;
+}
+.facebook_btn{
+    display: flex;
+    align-items: center;
+    background: #3B5998;
+    outline: none;
+    border: none;
+    color: white;
+    width: 185px;
+    padding: 10px 15px;
+    gap: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.6s;
+}
+.micro_btn{
+    display: flex;
+    align-items: center;
+    background: #2C75E9;
+    outline: none;
+    border: none;
+    color: white;
+    width: 185px;
+    padding: 10px 15px;
+    gap: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.6s;
+}
+.google_btn:hover{
+    opacity: 0.7;
+}
+.facebook_btn:hover{
+    opacity: 0.7;
+}
+.micro_btn:hover{
+    opacity: 0.7;
+}

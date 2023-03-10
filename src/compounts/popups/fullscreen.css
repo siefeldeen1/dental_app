@@ -1,0 +1,33 @@
+.pop_up_background{
+    width: 100Vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 9999999999;
+    background-color: rgba(0, 0, 0, 0.582);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pop_up_body{
+    width: 70%;
+    height: 80%;
+    position: relative;
+}
+
+.fullscreen_img{
+    width: 100%;
+    height: 100%;
+}
+
+.cancel_btn{
+position: absolute;
+top: 10px;
+right: 10px;
+cursor: pointer;
+transition: 0.4s;
+}
+
+.cancel_btn:hover{
+opacity: 0.7;
+}

@@ -1,0 +1,40 @@
+.side_bar_Class{
+    background-color: #252C48;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100vh;
+    padding: 20px;
+    width:fit-content;
+    gap:30px;
+
+}
+.icon_name{
+    display: none;
+}
+
+.side_bar_Class:hover{
+    width:16vw;
+}
+
+.side_bar_Class:hover .icon_name{
+    display:block ;
+}
+
+.side_bar_element{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    color:#8D909B ;
+    gap: 20px;
+    font-size: 19px;
+    cursor: pointer ;
+    transition: 0.4s;
+
+}
+
+.side_bar_element:hover{
+   opacity: 0.6;
+
+}
+
