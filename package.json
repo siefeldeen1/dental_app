@@ -9,9 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fullcalendar/daygrid": "^6.1.4",
-    "@fullcalendar/interaction": "^6.1.4",
-    "@fullcalendar/react": "^6.1.4",
     "@react-icons/all-files": "^4.1.0",
     "aws-amplify": "^5.0.15",
     "aws-sdk": "^2.1322.0",
