@@ -1,7 +1,4 @@
 import React,{useState,useCallback,useMemo} from 'react'
-import FullCalendar from '@fullcalendar/react' // must go before plugins
-import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
-import interactionPlugin from "@fullcalendar/interaction"
 import './Calender.css'
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar'
 import moment from 'moment'
