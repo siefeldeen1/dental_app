@@ -374,7 +374,7 @@ table {
     justify-content: start;
     background-color: #221f22;
     padding: 10px;
-    gap:4.3%;
+    gap:4.7%;
  }
 
  .tool_bar_icon_dev{
@@ -447,4 +447,11 @@ table {
 
 
 
-    
+    .active_icon_bar{
+     color:#6f6fe3;
+    }
+
+
+    .big_img{
+        z-index: 9999999999999999999;
+    }

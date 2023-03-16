@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { FaPen } from 'react-icons/fa';
 import { BiChevronRight } from 'react-icons/bi';
 import { BiChevronLeft } from 'react-icons/bi';
@@ -14,7 +14,7 @@ import Xray from '../../img/Screenshot (146).png'
 
 import Fullscreen from '../../compounts/popups/fullscreen';
 import ReactImageMagnify from 'react-image-magnify';
-
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 
 function denstist() {
@@ -22,6 +22,35 @@ function denstist() {
 const [fullscreen_pop, setfullscreen_pop] = useState(false)        
 const [magnifier, setmagnifier] = useState(false)
 
+// const fileInput = document.querySelector('#your-file-input') ;
+// const formData = new FormData();
+
+// formData.append('file', fileInput.files[0]);
+
+
+useEffect(() => {
+  
+
+        
+        //     const options = {
+        //       method: 'POST',
+        //       body: formData,
+        //       // If you add this, upload won't work
+        //       // headers: {
+        //       //   'Content-Type': 'multipart/form-data',
+        //       // }
+        //     };
+            
+        //     fetch('http://13.234.81.186:5001/api/predict', options);
+        
+
+
+// fetch('http://13.234.81.186:5001/api/predict').then((res)=>{
+
+//   console.log('responase',res);      
+// })
+
+}, [])
 
 
 
@@ -39,12 +68,12 @@ const fullscreen_on = ()=>{
 
 const bightness = (e)=>{
    
-        document.getElementById('main_img').style.filter=`brightness(${e})`
+        document.getElementById('main_img').style.filter=`brightness(${e/6})`
 }
 
 const contrast = (e)=>{
    
-        document.getElementById('main_img').style.filter=`contrast(${e})`
+        document.getElementById('main_img').style.filter=`contrast(${e/6})`
 }
 
 const invert = (e)=>{
@@ -82,21 +111,31 @@ const maginfy =()=>{
                                             alt: 'Wristwatch by Ted Baker London',
                                             isFluidWidth: true,
                                             src: Xray,
-                                              enlargedImagePosition:"over"
+                                              
                                         },
                                         largeImage: {
                                             src: Xray,
-                                            width: 1000,
-                                            height: 1200,
+                                            width: 2000,
+                                            height: 1800,
                                         
-                                            enlargedImagePosition:"over"
-                                        },
-                                        enlargedImagePosition:"over"
+                                        
+                                        },className:"big_img",enlargedImageContainerDimensions:{width: '80%', height: '80%'}
+                                       
                                     }} />:
+                                 <TransformWrapper>
+                                         {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+                                         <div className="tools">
+                                        <button onClick={() => zoomIn()}>+</button>
+                                         <button onClick={() => zoomOut()}>-</button>
+                                         <button onClick={() => resetTransform()}>x</button>
+                                        </div>
+                                         )}
+                                        <TransformComponent>
                                         <div className='img_cont' id='img_container_main'>
                                          <img style={{width:"100%",height:"100%"}} id='main_img' src={Xray} alt="" />
                                         </div>
-
+                                </TransformComponent>
+                                </TransformWrapper>
                                 }
 
                                 {/* legends */}

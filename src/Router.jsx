@@ -6,6 +6,9 @@ import Main_page from './pages/main_page/main_page'
 import Questions from './pages/question_page/questions'; 
 import Home_page from './pages/home_page/home_page';
 import Denstist from './pages/dentist/denstist';
+import Patient_details from './pages/patient_details/Patient_details';
+import Schedule from './pages/Schedule/Schedule';
+import Test from './pages/test/Test';
 
 export default function Router() {
   return useRoutes([
@@ -15,6 +18,9 @@ export default function Router() {
     {path: '/questionier', element:  <Questions/> },
     {path: '/Home', element:  <Home_page/> },
     {path: '/', element:  <Denstist/> },
+    {path: '/patient_details', element:  <Patient_details/> },
+    {path: '/Schedule', element:  <Schedule/> },
+    {path: '/test', element:  <Test/> },
     // {path: '/annotator', element:  <Denstist/> },
     ])
 }

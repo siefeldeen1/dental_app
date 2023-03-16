@@ -7,23 +7,25 @@ import { BiClinic  } from 'react-icons/bi';
 import { RiMoneyPoundCircleLine } from 'react-icons/ri';
 import { BsTelephone  } from 'react-icons/bs';
 import { CgSmartphoneChip } from 'react-icons/cg';
+import { useNavigate } from "react-router-dom";
 
 function side_bar() {
+    const navigate = useNavigate();
   return (
     <div className='side_bar_Class'>
-            <div className='side_bar_element'>
+            <div className='side_bar_element' style={{marginTop:"20px"} } onClick={()=>{navigate("/Schedule")}}>
                 <MdOutlineEventNote size={22}/>
                 <div className='icon_name'>Schedule</div>
             </div>
 
-            <div className='side_bar_element'>
+            <div className='side_bar_element' onClick={()=>{navigate("/patient_details")}}>
                 <RxPerson   size={22}/>
                 <div className='icon_name'>patient details</div>
             </div>
 
-            <div className='side_bar_element'>
+            <div className='side_bar_element' >
                 <AiOutlinePieChart  size={22}/>
-                <div className='icon_name'>patient Dashboard</div>
+                <div className='icon_name' >patient Dashboard</div>
             </div>
 
             <div className='side_bar_element'>
