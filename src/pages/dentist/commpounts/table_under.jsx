@@ -16,7 +16,8 @@ function table_under() {
 
     useEffect(() => {
      
-        fetch("http://localhost:8082/json_test",{
+        // fetch("http://localhost:8082/json_test",{
+        fetch("http://backend-revica-payment.vercel.app/json_test",{
             "headers" : {
                 'Content-Type': 'application/json'
             },

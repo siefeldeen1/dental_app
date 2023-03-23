@@ -38,7 +38,8 @@ function login() {
       }
      }
      useEffect(() => {
-     fetch('http://localhost:8082/auth/google/callback').then((res)=>{
+//      fetch('http://localhost:8082/auth/google/callback').then((res)=>{
+     fetch('http://backend-revica-payment.vercel.app/auth/google/callback').then((res)=>{
   
       if(res.status(200)){
             navigate("/login")
@@ -53,7 +54,8 @@ function login() {
          
 
             if((pass1.value.length != 0)&(email.value.includes('@')== true)&(email.value.includes('.')== true)){
-                  fetch("http://localhost:8082/login",{
+                  // fetch("http://localhost:8082/login",{
+                  fetch("http://backend-revica-payment.vercel.app/login",{
                         method:"POST",
                         headers:{"content-type":"application/json"},
                         body:JSON.stringify({
