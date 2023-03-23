@@ -69,7 +69,7 @@ const submit = ()=>{
   else{
     setinvaild_email(false)
   // fetch("http://localhost:8082/patient_details",{
-  fetch("https://backend-revica-payment.vercel.app/patient_details",{
+  fetch("https://dentail.onrender.com/patient_details",{
     method:"POST",
     headers:{"content-type":"application/json"},
     body:JSON.stringify({
@@ -108,7 +108,7 @@ const submit = ()=>{
 
 const onchange= ()=>{
   // fetch(`http://localhost:8082/Search`,{
-  fetch(`https://backend-revica-payment.vercel.app/Search`,{
+  fetch(`https://dentail.onrender.com/Search`,{
     method:"get",
     headers:{
       name:Name,
@@ -143,7 +143,7 @@ const delete_patient = ()=>{
         delete_btn.addEventListener("click",()=>{
           console.log("action",name_value,last_name_value,phone_value,birth_value);
           // fetch("http://localhost:8082/delete",{
-          fetch("https://backend-revica-payment.vercel.app/delete",{
+          fetch("https://dentail.onrender.com/delete",{
             method:"get",
             headers:{
               name:name_value,
