@@ -38,11 +38,12 @@ const click = ()=>{
         // headers: {
         //   'Content-Type': 'multipart/form-data',
         // }
-      }).then((res)=>{
-        console.log('respon',res);
-        setimg_api(res)
+      }).then((res)=> res.json())
+      .then((data)=>{
+        console.log("data",data);
+       setimg_api(data)
       })
-
+    
     // axios.post('http://13.234.81.186:5001/api/predict/',{
     //     method: 'POST',
     //     content: formData,

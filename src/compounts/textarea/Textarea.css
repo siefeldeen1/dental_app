@@ -1,29 +1,26 @@
-.comp_dev{
+textarea {
+    resize: none;
+  }
+
+  .textarea_dev_con{
     display: flex;
     align-self: start;
     flex-direction: column;
     justify-content: center;
     color: white;
     gap: 10px;
-    width: 100%
-}
+    width: 100%;
+    height:100% ;
+  }
 
-.input_comp{
 
-height: 40%;
-background-color: #3A3C3E;
+.textarea_componat{
+    height: 100%;
+    background-color: #3A3C3E;
 border-radius: 5px;
 padding: 10px 7px;
 border: none;
 outline: none;
 color: white;
 color-scheme: light;
-}
-
-.input_comp::-webkit-calendar-picker-indicator{
-    color: white;
-}
-input[type=date]::-webkit-calendar-picker-indicator{
-border-color: white;
-
 }

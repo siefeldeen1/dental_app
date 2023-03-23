@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { AiOutlineStar } from 'react-icons/ai';
 import { BiCommentAdd } from 'react-icons/bi';
@@ -12,6 +12,22 @@ import { RiArrowGoForwardLine } from 'react-icons/ri';
 
 function table_under() {
     const [watch_on, setwatch_on] = useState(true)
+    const [data_arr, setdata_arr] = useState()
+
+    useEffect(() => {
+     
+        fetch("http://localhost:8082/json_test",{
+            "headers" : {
+                'Content-Type': 'application/json'
+            },
+        }).then((res)=>res.json())
+.then((data)=>{console.log("test_Data2",Object.values(data.Output));
+
+        setdata_arr(Object.values(data.Output))
+        })
+    }, [])
+    
+
   return (
     <div style={{height:"100%"}}>
             {/* <table className='table_body'>
@@ -83,7 +99,45 @@ function table_under() {
                 <div className='vist_level'>Visit level</div>
 
                 <div className='table_data_organizer'>
-                    <div className='table_data'>
+
+                {data_arr?.map((e,i)=>{
+                    return(
+                        <div className='table_data' key={i}>
+                        <div style={{display:"flex",justifyContent:"center"}}>
+                            <div className='tooth_class'>12</div>
+                        </div>
+
+                        <div style={{display:"flex",justifyContent:"flex-start",marginTop:"-10px"}}>
+                            <div className='finding_table'>
+                                <div >{e[0]}</div>
+                                <div className='tags_Dev'>
+                                    <div className="tagged_elem">{e[1]}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    
+                        <div className='rest_td'>
+                        { watch_on?
+                            <AiOutlineStar size={21} className='icon_in_table' onClick={()=>{setwatch_on(!watch_on)}}/>:
+                            <AiFillStar size={21} className='icon_in_table' color='#FFDF00' onClick={()=>{setwatch_on(!watch_on)}}/>
+                            }
+                            </div>
+                        <div className='rest_td ' >.</div>
+                        <div style={{display:"flex",justifyContent:"space-around"}}>
+                            <ImCancelCircle size={20} color="#B33A3A " className='icon_in_table'/>
+                            <BiCommentAdd size={24} className='icon_in_table' />
+                        </div>
+
+                       </div>
+                    )
+                })
+
+                }
+
+
+            
+                    {/* <div className='table_data'>
                         <div style={{display:"flex",justifyContent:"center"}}>
                             <div className='tooth_class'>12</div>
                         </div>
@@ -168,36 +222,7 @@ function table_under() {
                             <BiCommentAdd size={24} className='icon_in_table' />
                         </div>
 
-                    </div>
-
-                    <div className='table_data'>
-                        <div style={{display:"flex",justifyContent:"center"}}>
-                            <div className='tooth_class'>12</div>
-                        </div>
-
-                        <div style={{display:"flex",justifyContent:"center",marginTop:"-10px"}}>
-                            <div className='finding_table'>
-                                <div >Filling</div>
-                                <div className='tags_Dev'>
-                                    <div className="tagged_elem">AI</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    
-                        <div className='rest_td'>
-                        { watch_on?
-                            <AiOutlineStar size={21} className='icon_in_table' onClick={()=>{setwatch_on(!watch_on)}}/>:
-                            <AiFillStar size={21} className='icon_in_table' color='#FFDF00' onClick={()=>{setwatch_on(!watch_on)}}/>
-                            }
-                            </div>
-                        <div className='rest_td ' >.</div>
-                        <div style={{display:"flex",justifyContent:"space-around"}}>
-                            <ImCancelCircle size={20} color="#B33A3A " className='icon_in_table'/>
-                            <BiCommentAdd size={24} className='icon_in_table' />
-                        </div>
-
-                    </div>
+                    </div> */}
                     
                </div>
                 

@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import { FaPen } from 'react-icons/fa';
 import { BiChevronRight } from 'react-icons/bi';
 import { BiChevronLeft } from 'react-icons/bi';
@@ -11,17 +11,21 @@ import Table from './commpounts/table_under';
 import Tool_bar from './commpounts/tool_bar';
 
 import Xray from '../../img/Screenshot (146).png'
+import Teeth from '../../img/teeth.jpg'
 
 import Fullscreen from '../../compounts/popups/fullscreen';
 import ReactImageMagnify from 'react-image-magnify';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-
+import {MainContext} from '../../../utils/MainContext'
 
 function denstist() {
 
 const [fullscreen_pop, setfullscreen_pop] = useState(false)        
 const [magnifier, setmagnifier] = useState(false)
+const [data_arr, setdata_arr] = useState()
+const [tooth_arr, settooth_arr] = useState()
 
+const{ img_api, setimg_api} = useContext(MainContext)
 // const fileInput = document.querySelector('#your-file-input') ;
 // const formData = new FormData();
 
@@ -49,6 +53,87 @@ useEffect(() => {
 
 //   console.log('responase',res);      
 // })
+
+
+fetch("http://localhost:8082/json_test").then((res)=>res.json())
+.then((data)=>{
+        console.log("test_Data",data.Output);
+        setdata_arr(data.Output)
+        settooth_arr(Object.values(data.Output))
+        console.log("asdsadasgtr",Object.keys(data.Output));
+
+        var images = [];
+        const canvas = document.getElementById('main_img');
+        const ctx = canvas.getContext('2d');
+        let img = new Image
+        img.src = Teeth
+        ctx.globalCompositeOperation = "destination-over";
+        img.onload = () => {
+        ctx.drawImage(img, 0, 0,300,170)
+        }
+        for (let i = 0; i < Object.keys(data.Output).length; i++) {
+              console.log("askdskads",data.Output[i][2]);
+                
+              images[i] = new Image();
+
+              images[i].src = `data:image/png;base64,${data.Output[i][3]}`;
+           
+              let img2= new Image
+              
+              
+           
+           
+              
+            
+
+   
+        //       images[i].onload = () => {
+        //           // Draw the image onto the context
+        //         //   console.log("testing imag",images[i],data.Output[i][2][0], data.Output[i][2][1], data.Output[i][2][2], data.Output[i][2][3], data.Output[i][2][4], data.Output[i][2][5]);
+          
+        //         ctx.drawImage(images[i],0, 0, 300, 170,)
+                 
+                 
+        //         //   ctx.drawImage(img, 0, 0,300,180)
+                
+                
+        //         //   ctx.drawImage(images[i],data.Output[i][2][5], data.Output[i][2][4], data.Output[i][2][3], data.Output[i][2][2], data.Output[i][2][1], data.Output[i][2][0])
+        //         //  ctx.drawImage(images[i],400, 200, 200, 200, 0.1, 1,400,400)
+                     
+        //         }
+
+        }
+        // data.Output.forEach(e => {
+        // console.log('dataout',e);
+        // });
+
+
+        // const canvas = document.getElementById('main_img');
+        // const ctx = canvas.getContext('2d');
+        // let img = new Image
+        // let img2 = new Image
+        
+        
+        // img.src = Teeth
+
+        
+        // img2.onload = () => {
+        //     // Draw the image onto the context
+        //     ctx.drawImage(img, 0, 0,300,180)
+        // //     context.globalCompositeOperation = "source-in";
+        //     ctx.drawImage(img2,265, 200, 286, 228, 0.8677796125411987, 1)
+        // }
+
+})
+
+
+
+
+//   ctx.drawImage(img,0,0);
+ 
+//   ctx.fillText('Hello world', 50, 90);
+
+
 
 }, [])
 
@@ -88,6 +173,12 @@ const zoom = (e)=>{
 const maginfy =()=>{
         setmagnifier(!magnifier)
 }
+
+
+
+
+
+console.log('data',img_api);
 
   return (
     <div style={{display:"flex",overflowY:"hidden",height:"100vh"}}>  
@@ -132,7 +223,23 @@ const maginfy =()=>{
                                          )}
                                         <TransformComponent>
                                         <div className='img_cont' id='img_container_main'>
-                                         <img style={{width:"100%",height:"100%"}} id='main_img' src={Xray} alt="" />
+                                      
+                                            
+                                                {/* <canvas style={{width:"100%",height:"100%"}} id='main_img'></canvas> */}
+                                                <img  style={{width:"100%",height:"100%"}} src={Teeth}  alt="" />
+                                                {/* <div style={{position:"absolute"}}> */}
+                                                     { tooth_arr?.map((e,i)=>{
+                                                        return(
+                                                                
+                                                                <img src={`data:image/png;base64,${e[3]}`} style={{position:"absolute",width:"100%",height:"100%"}} alt="" />
+                                                                
+                                                     
+                                                        )
+                                                     })  
+                                                      
+                                                        }
+                                                {/* </div> */}
+                                         {/* <img style={{width:"100%",height:"100%"}} id='main_img' src={Xray} alt="" /> */}
                                         </div>
                                 </TransformComponent>
                                 </TransformWrapper>

@@ -15,15 +15,24 @@
 
 .body_itself{
     width: 90%;
-    height:80%;
+    height:88%;
     background-color: #1A1C1E;
     margin: 0 auto;
     padding: 20px;
     border-radius:7px ;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
+}
+
+
+.header_part{
+    display: grid;
+    grid-template-columns: 20% 20% 20% 13% 13%;
+    gap: 26px;
+    width: 100%;
+    align-items: end;
 }
 
 .adding_patient_details{
@@ -35,3 +44,112 @@
     padding: 10px;
     color: white;
 }
+
+@media screen and (max-width: 4000px) and (min-width: 2101px){
+ 
+    .patient_details_grid{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        height: 100%;
+        width: 100%;
+    }
+
+}
+
+.columns_orgs{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.patient_body_part{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 20px 0;
+}
+
+
+.column_part_patient{
+    display: grid;
+    grid-template-columns: 45.5% 47.5%;
+    gap: 20px;
+    width: 82%;
+}
+
+.column_parts{
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    gap: 10px;
+}
+
+.notes_block_part{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 10px;
+}
+
+.btn_cell{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.table_Container_Patient{
+    overflow-x:auto;
+    width: 100%;
+}
+
+.table_Container_Patient::-webkit-scrollbar{
+    width: 4px;
+}
+.table_Container_Patient::-webkit-scrollbar-track{
+    background: #f1f1f1;
+}
+.table_Container_Patient::-webkit-scrollbar-thumb{
+    background: #888;
+}
+
+
+.header_part_patient{
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+
+
+.table_patient {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+.table_patient > tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #c5c5c5;
+  }
+
+  abbr[title] {
+    border-bottom: none !important;
+    cursor: inherit !important;
+    text-decoration: none !important;
+  }

@@ -7,6 +7,7 @@ import { BiClinic  } from 'react-icons/bi';
 import { RiMoneyPoundCircleLine } from 'react-icons/ri';
 import { BsTelephone  } from 'react-icons/bs';
 import { CgSmartphoneChip } from 'react-icons/cg';
+import { BsFillClipboard2HeartFill } from 'react-icons/bs';
 import { useNavigate } from "react-router-dom";
 
 function side_bar() {
@@ -28,9 +29,14 @@ function side_bar() {
                 <div className='icon_name' >patient Dashboard</div>
             </div>
 
-            <div className='side_bar_element'>
+            <div className='side_bar_element' onClick={()=>{navigate("/")}}>
                 <BiClinic  size={22}/>
-                <div className='icon_name'>Assessment Assist </div>
+                <div className='icon_name'>Resto Assist</div>
+            </div>
+
+            <div className='side_bar_element'>
+                <BsFillClipboard2HeartFill  size={22}/>
+                <div className='icon_name'>Perio Assist</div>
             </div>
 
             <div className='side_bar_element'>
