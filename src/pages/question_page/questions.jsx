@@ -26,7 +26,7 @@ let year = date.getFullYear();
 
 
   // fetch("http://localhost:8082/insert",{
-  fetch("http://backend-revica-payment.vercel.app/insert",{
+  fetch("https://backend-revica-payment.vercel.app/insert",{
     method:"POST",
     headers:{"content-type":"application/json"},
     body:JSON.stringify({

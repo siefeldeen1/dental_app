@@ -50,7 +50,7 @@ function Home_patient_detials() {
 
   useEffect(() => {
     // fetch(`http://localhost:8082/Search`,{
-    fetch(`http://backend-revica-payment.vercel.app/Search`,{
+    fetch(`https://backend-revica-payment.vercel.app/Search`,{
       method:"get",
       headers:{
         name:update_name,
@@ -85,7 +85,7 @@ function Home_patient_detials() {
 
   const update_patient = ()=>{
     // fetch("http://localhost:8082/update",{
-    fetch("http://backend-revica-payment.vercel.app/update",{
+    fetch("https://backend-revica-payment.vercel.app/update",{
       method:"PUT",
       headers:{"content-type":"application/json"},
       body:JSON.stringify({

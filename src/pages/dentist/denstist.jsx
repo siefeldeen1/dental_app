@@ -56,7 +56,7 @@ useEffect(() => {
 
 
 // fetch("http://localhost:8082/json_test").then((res)=>res.json())
-fetch("http://backend-revica-payment.vercel.app/json_test").then((res)=>res.json())
+fetch("https://backend-revica-payment.vercel.app/json_test").then((res)=>res.json())
 .then((data)=>{
         console.log("test_Data",data.Output);
         setdata_arr(data.Output)

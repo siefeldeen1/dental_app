@@ -6,7 +6,7 @@ import { BiSearchAlt2 } from 'react-icons/bi';
 function home_page() {
  const search =()=>{
     // fetch("http://localhost:8082/search",{
-    fetch("http://backend-revica-payment.vercel.app/search",{
+    fetch("https://backend-revica-payment.vercel.app/search",{
         method:"get",
         headers:{search_name:"sief"},   
     }).then((res)=>res.json())
