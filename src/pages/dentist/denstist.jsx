@@ -148,6 +148,7 @@ e.target.classList.add("active_bubble")
 }
 
 const fullscreen_on = ()=>{
+       
         setfullscreen_pop(true)
 }
 
@@ -202,7 +203,7 @@ const maginfy =()=>{
                                         smallImage: {
                                             alt: 'Wristwatch by Ted Baker London',
                                             isFluidWidth: true,
-                                            src: Xray,
+                                            src: Teeth,
                                               
                                         },
                                         largeImage: {
@@ -227,7 +228,7 @@ const maginfy =()=>{
                                       
                                             
                                                 {/* <canvas style={{width:"100%",height:"100%"}} id='main_img'></canvas> */}
-                                                <img  style={{width:"100%",height:"100%"}} src={Teeth}  alt="" />
+                                                <img  style={{width:"100%",height:"100%"}} src={Teeth} id='main_img' alt="" />
                                                 {/* <div style={{position:"absolute"}}> */}
                                                      { tooth_arr?.map((e,i)=>{
                                                         return(
