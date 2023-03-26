@@ -31,7 +31,7 @@ const submitter = ()=>{
     console.log(`${start_year},${start_month},${start_day},${start_hour},${start_min}`);
     console.log(`${end_year},${end_month},${end_day},${end_hour},${end_min}`);
 
-    fetch('http://localhost:8082/appointment_date',{
+    fetch(`${import.meta.env.VITE_BACKEND_API}/appointment_date`,{
         method: "POST",
         headers:{"content-type":"application/json"},
         body:JSON.stringify({

@@ -55,7 +55,7 @@ function login() {
 
             if((pass1.value.length != 0)&(email.value.includes('@')== true)&(email.value.includes('.')== true)){
                   // fetch("http://localhost:8082/login",{
-                  fetch("http://localhost:8082/login",{
+                  fetch(`${import.meta.env.VITE_BACKEND_API}/login`,{
                         method:"POST",
                         headers:{"content-type":"application/json"},
                         body:JSON.stringify({

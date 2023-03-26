@@ -16,8 +16,8 @@ function table_under() {
 
     useEffect(() => {
      
-        // fetch("http://localhost:8082/json_test",{
-        fetch("http://localhost:8082/json_test",{
+        // fetch("${import.meta.env.VITE_BACKEND_API}/json_test",{
+        fetch(`${import.meta.env.VITE_BACKEND_API}/json_test`,{
             "headers" : {
                 'Content-Type': 'application/json'
             },

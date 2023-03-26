@@ -50,7 +50,7 @@ function Home_patient_detials() {
 
   useEffect(() => {
     // fetch(`http://localhost:8082/Search`,{
-    fetch(`http://localhost:8082/Search`,{
+    fetch(`${import.meta.env.VITE_BACKEND_API}/Search`,{
       method:"get",
       headers:{
         name:update_name,
@@ -85,7 +85,7 @@ function Home_patient_detials() {
 
   const update_patient = ()=>{
     // fetch("http://localhost:8082/update",{
-    fetch("http://localhost:8082/update",{
+    fetch(`${import.meta.env.VITE_BACKEND_API}/update`,{
       method:"PUT",
       headers:{"content-type":"application/json"},
       body:JSON.stringify({

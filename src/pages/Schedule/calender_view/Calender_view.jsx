@@ -33,7 +33,7 @@ export default class Dnd extends React.Component {
 
   componentDidMount() {
     let arr =[]
-fetch("http://localhost:8082/dates_appoint").then((res)=>res.json())
+fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint`).then((res)=>res.json())
 .then((data)=> {
   data.forEach(e => {
 console.log("start",e["start"]);
@@ -78,7 +78,7 @@ console.log("start",e["start"]);
     nextEvents.splice(idx, 1, updatedEvent);
 
       // console.log("start-end",updatedEvent.id);
-      fetch("http://localhost:8082/dates_appoint",{
+      fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint`,{
         method:"PUT",
         headers:{"content-type":"application/json"},
         body:JSON.stringify({
@@ -105,7 +105,7 @@ console.log("start",e["start"]);
 
       console.log("nextEvents",event.id,start,end);
 
-    fetch("http://localhost:8082/dates_appoint",{
+    fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint`,{
       method:"PUT",
       headers:{"content-type":"application/json"},
       body:JSON.stringify({

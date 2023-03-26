@@ -26,7 +26,7 @@ let year = date.getFullYear();
 
 
   // fetch("http://localhost:8082/insert",{
-  fetch("http://localhost:8082/insert",{
+  fetch(`${import.meta.env.VITE_BACKEND_API}/insert`,{
     method:"POST",
     headers:{"content-type":"application/json"},
     body:JSON.stringify({
