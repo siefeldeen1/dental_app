@@ -6,6 +6,7 @@ import Calender_view from './calender_view/Calender_view'
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { IoPeopleOutline } from "react-icons/io5";
 import Patient_view from './patient_view/Patient_view'
+import Appointment_popup from '../../compounts/popups/Appointment_popup'
 
 
 function Schedule() {
@@ -28,8 +29,11 @@ function Schedule() {
                 <div className='tab_schedule active_tab_schedule' onClick={(e)=>{toggle_on(e);settaps_on(true)}} ><AiOutlineCalendar size={20}/> Calender view</div>
                 <div className='tab_schedule' onClick={(e)=>{toggle_on(e);settaps_on(false)}} ><IoPeopleOutline size={20}/><span>Patient View</span></div>
              </div>
+
              {taps_on?
-                <Calender_view/>:
+                  <Calender_view/>
+               
+              :
                 <Patient_view/>
              }
              

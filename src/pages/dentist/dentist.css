@@ -465,3 +465,7 @@ table {
     .transform-component-module_content__FBWxo{
         width: 100% !important;
     }
+
+    .hidden_img{
+        display: none;
+    }

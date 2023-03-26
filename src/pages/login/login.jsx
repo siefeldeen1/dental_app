@@ -39,7 +39,7 @@ function login() {
      }
      useEffect(() => {
 //      fetch('http://localhost:8082/auth/google/callback').then((res)=>{
-     fetch('https://dentail.onrender.com/auth/google/callback').then((res)=>{
+     fetch('http://localhost:8082/auth/google/callback').then((res)=>{
   
       if(res.status(200)){
             navigate("/login")
@@ -55,7 +55,7 @@ function login() {
 
             if((pass1.value.length != 0)&(email.value.includes('@')== true)&(email.value.includes('.')== true)){
                   // fetch("http://localhost:8082/login",{
-                  fetch("https://dentail.onrender.com/login",{
+                  fetch("http://localhost:8082/login",{
                         method:"POST",
                         headers:{"content-type":"application/json"},
                         body:JSON.stringify({

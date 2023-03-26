@@ -26,7 +26,7 @@ let year = date.getFullYear();
 
 
   // fetch("http://localhost:8082/insert",{
-  fetch("https://dentail.onrender.com/insert",{
+  fetch("http://localhost:8082/insert",{
     method:"POST",
     headers:{"content-type":"application/json"},
     body:JSON.stringify({

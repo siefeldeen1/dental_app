@@ -5,8 +5,8 @@ import { BiSearchAlt2 } from 'react-icons/bi';
 
 function home_page() {
  const search =()=>{
-    // fetch("http://localhost:8082/search",{
-    fetch("https://dentail.onrender.com/search",{
+     // fetch("https://dentail.onrender.com/search",{
+     fetch("http://localhost:8082/search",{
         method:"get",
         headers:{search_name:"sief"},   
     }).then((res)=>res.json())

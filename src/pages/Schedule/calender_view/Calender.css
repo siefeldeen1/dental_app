@@ -6,3 +6,10 @@ background-color: white;
 padding: 10px;
 margin-bottom: 0 !important;
 }
+
+.add_appoint{
+    display: flex;
+    justify-content: end;
+    width: 99%;
+  
+}
