@@ -3,9 +3,12 @@ import Input from '../../compounts/inputs/Input';
 import Textarea from '../../compounts/textarea/Textarea';
 import './Clinc.css'
 import {MainContext} from '../../../utils/MainContext'
+import { useNavigate } from "react-router-dom";
+
 
 function Clinc_info() {
     
+  const navigate = useNavigate();
     const [Business_name, setBusiness_name] = useState('')
     const [first_nom, setfirst_nom] = useState('')
     const [last_nom, setlast_nom] = useState('')
