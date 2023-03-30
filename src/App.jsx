@@ -20,10 +20,9 @@ function App() {
   const [password, setpassword] = useState('')
   const [view_Imgs, setview_Imgs] = useState([])
   const [patient_name, setpatient_name] = useState('')
+  const [islogged, setislogged] = useState()
 
-  if(!localStorage.getItem("clinic_id")){
-    navigate("/Signup")
-  }
+ 
 
 
   return (

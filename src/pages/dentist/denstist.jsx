@@ -19,9 +19,12 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import {MainContext} from '../../../utils/MainContext'
 import { IoWarningOutline } from 'react-icons/io5';
 import Button from '../../compounts/button/Button.jsx'
+import { useNavigate } from "react-router-dom";
+
+
 
 function denstist() {
-
+ const navigate = useNavigate();
 const [fullscreen_pop, setfullscreen_pop] = useState(false)        
 const [magnifier, setmagnifier] = useState(false)
 const [data_arr, setdata_arr] = useState()
@@ -39,8 +42,11 @@ const [numbering, setnumbering] = useState([])
 // formData.append('file', fileInput.files[0]);
 
 
+
 useEffect(() => {
-  
+        if(localStorage.getItem("clinic_id") == null){
+                navigate("/Signup")
+              }
         const fdi = [18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28,48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38]
         const palmer = [8,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8]
         const uni = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17]
