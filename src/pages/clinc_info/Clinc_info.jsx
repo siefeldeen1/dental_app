@@ -138,7 +138,7 @@ function Clinc_info() {
                 </div>
 
                 <div>
-                        <Input value={phone_off} style={{width:"100%"}} onChange={(e)=>{setphone_off(e.target.value);}} label={"Office Phone Number"} placeholder={"Enter your Office Phone Number"}/>
+                        <Input value={phone_off} type={"number"} style={{width:"100%"}} onChange={(e)=>{setphone_off(e.target.value);}} label={"Office Phone Number"} placeholder={"Enter your Office Phone Number"}/>
                         {missing_phone&&
                             <div style={{color:"#FF9494 "}}>This is a required field</div>
                         }
@@ -173,7 +173,7 @@ function Clinc_info() {
 
                                 <div className='columns_orgs'>
                                     <div className='column_parts'>
-                                        <Input  value={phone} onChange={(e)=>{setphone(e.target.value)}} label={"Phone Number"} placeholder={"Enter your Phone Number"}/>
+                                        <Input  value={phone} type={"number"} onChange={(e)=>{setphone(e.target.value)}} label={"Phone Number"} placeholder={"Enter your Phone Number"}/>
                                         
                                         <div className='comp_dev'>
                                             <label for="">Dental numbering</label> 
