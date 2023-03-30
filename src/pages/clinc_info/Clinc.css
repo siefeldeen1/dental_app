@@ -1,0 +1,7 @@
+.header_part_clinc{
+    display: grid;
+    grid-template-columns: 18% 18% 18% 18% 18%;
+    gap: 26px;
+    width: 100%;
+    align-items: end;
+}

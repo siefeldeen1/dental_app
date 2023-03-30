@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import { BiShow } from 'react-icons/bi';
 import { BiHide } from 'react-icons/bi';
 import { FaFacebookF } from 'react-icons/fa';
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import './signup.css'
 import ReactDOM from 'react-dom';
 import OAuth2Login from 'react-simple-oauth2-login';
-
+import {MainContext} from '../../../utils/MainContext'
 
 
 function sigmup() {
@@ -20,6 +20,10 @@ function sigmup() {
       const [empty, setempty] = useState(false)
       const [vaild_mail, setvaild_mail] = useState(false)
       const [err, seterr] = useState(false)
+      const{ email, setemail} = useContext(MainContext)
+      const{ password, setpassword} = useContext(MainContext)
+
+
 
       const showpass1 =()=>{
             var x = document.getElementById("pass1");
@@ -39,33 +43,34 @@ function sigmup() {
       x.type = "password";
       }
      }
-     useEffect(() => {
-     fetch('http://localhost:8082/auth/google/callback').then((res)=>{
-      if(res.status(200)){
-            navigate("/login")
-      }
-     })
-     }, [])
+//      useEffect(() => {
+//      fetch('${import.meta.env.VITE_BACKEND_API}/auth/google/callback').then((res)=>{
+//       if(res.status(200)){
+//             navigate("/login")
+//       }
+//      })
+//      }, [])
      
      const submetter = ()=>{
            const email = document.getElementById("email")
            const password = document.getElementById("pass1")
             const pass1 = document.getElementById("pass1")
             const pass2 = document.getElementById("pass2")
-
+            setemail(email)
+            setpassword(password)
             if((pass1.value == pass2.value)&(pass1.value.length != 0)&(email.value.includes('@')== true)&(email.value.includes('.')== true)){
-                  fetch("http://localhost:8082/signup",{
+                  fetch(`${import.meta.env.VITE_BACKEND_API}/signup`,{
                         method:"POST",
                         headers:{"content-type":"application/json"},
                         body:JSON.stringify({
-                             username:email.value,
+                             email:email.value,
                             password:password.value
                       })
                 
                     }).then((res)=>{
                         console.log('llll',res.status);
                         if(res.status == 200 ){
-                          navigate('/main_page')
+                          navigate('/Clinc_info')
                         }else {
                           seterr(true)
                         }
@@ -92,13 +97,13 @@ function sigmup() {
      }
 
      const google= ()=>{
-      window.open("http://localhost:8082/auth/google", "_self")
+      window.open(`${import.meta.env.VITE_BACKEND_API}/auth/google`, "_self")
      }
      const facebook= ()=>{
-      window.open("http://localhost:8082/auth/facebook", "_self")
+      window.open(`${import.meta.env.VITE_BACKEND_API}/auth/facebook`, "_self")
      }
      const micrsoft= ()=>{
-      window.open("http://localhost:8082/auth/microsoft", "_self")
+      window.open(`${import.meta.env.VITE_BACKEND_API}/auth/microsoft`, "_self")
      }
 
   return (

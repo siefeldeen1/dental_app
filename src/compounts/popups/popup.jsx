@@ -8,6 +8,7 @@ function Popup({icon,text}) {
             <div className='popup_Body2'>
                        {icon}
                         <div>{Text}</div>
+                        <Button/>
                         
             </div>
     </div>

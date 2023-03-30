@@ -101,6 +101,12 @@ table {
     color: white;
     border-radius: 10px;
     padding: 5px 3px;
+    cursor: pointer;
+    transition: 0.4s;
+  }
+
+  .img_radiography:hover{
+    background-color: rgb(5, 255, 151);
   }
 
   .bigger_dev_table_cont{

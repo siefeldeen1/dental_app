@@ -10,10 +10,12 @@ import Patient_details from './pages/patient_details/Patient_details';
 import Schedule from './pages/Schedule/Schedule';
 import Test from './pages/test/Test';
 import Home_patient_detials from './pages/patient_details/home_patient/Home_patient_detials';
+import Clinc_info from './pages/clinc_info/Clinc_info';
+import View_imgs from './pages/Schedule/view_imgs/View_imgs';
 
 export default function Router() {
   return useRoutes([
-    // {path: '/', element:  <Signup/> },
+    {path: '/Signup', element:  <Signup/> },
     {path: '/Login', element:  <Login/> },
     {path: '/main_page', element:  <Main_page/> },
     {path: '/questionier', element:  <Questions/> },
@@ -23,6 +25,8 @@ export default function Router() {
     {path: '/edit_patient_details', element:  <Home_patient_detials/> },
     {path: '/Schedule', element:  <Schedule/> },
     {path: '/test', element:  <Test/> },
+    {path: '/Clinc_info', element:  <Clinc_info/> },
+    {path: '/view_imges', element:  <View_imgs/> },
     // {path: '/annotator', element:  <Denstist/> },
     ])
 }

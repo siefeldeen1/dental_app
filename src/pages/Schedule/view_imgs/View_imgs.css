@@ -1,0 +1,47 @@
+.view_imgs_grid{
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+
+    height: 100%;
+    gap: 15px;
+   
+    margin: 0 10px;
+    margin-top: 15px;
+}
+
+.header_body_viewimgs{
+    background-color:rgb(34, 29, 29);
+    width: 100%;
+   padding: 20px 0;
+   display: flex;
+   align-items: center;
+}
+
+.goback_viewimgs{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: white;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+.goback_viewimgs:hover{
+    opacity: 0.6;
+}
+
+
+.patient_name_class{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    width: 90%;
+}
+
+
+.imgs_inview_imgs{
+    width: 100%;
+    height: 100%;
+    border-radius: 7px;
+}

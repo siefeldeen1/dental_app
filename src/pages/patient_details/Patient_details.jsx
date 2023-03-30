@@ -50,6 +50,7 @@ function Patient_details() {
   const{ update_phone, setupdate_phone} = useContext(MainContext)
   const{ update_birth, setupdate_birth} = useContext(MainContext)
 
+  let arr = []
 
 const submit = ()=>{
   console.log(Name,email,phone,address,birth,
@@ -63,48 +64,92 @@ const submit = ()=>{
     setmissing_date(true)
   } else if(last_nom.length < 1){
     setmissing_last(true)
-  }else if ((email.includes('@')== false)||(email.includes('.')== false)) {
-    setinvaild_email(true)
-  } 
+  }
+  // else if ((email.length != 0)&&(email.includes('@')== false)||(email.includes('.')== false)) {
+  //   setinvaild_email(true)
+  // } 
   else{
     setinvaild_email(false)
-  // fetch("http://localhost:8082/patient_details",{
-  fetch(`http://localhost:8082/patient_details`,{
-    method:"POST",
-    headers:{"content-type":"application/json"},
-    body:JSON.stringify({
-      Name :Name,
-      last_name:last_nom,
-      email:email,
-      phone:phone,
-      country:country,
-      state:state,
-      city:city,
-      zip_code:zip_code,
-      birth:birth,
-      emergency:emergency,
-      preference:preference,
-      gender:gender,
-      guardian:guardian,
-      patient_id:patient_id,
-      notes:notes,
-      address:address,
 
-      
-  })
-
-}).then((res)=>{
-    console.log('llll',res.status);
-    if(res.status == 200 ){
-     alert("works")
-     location.reload();
-    }else {
-      seterr(true)
+    for (let i = 0; i < document.querySelector("#input_files").files.length; i++) {
+      const selectedFile = document.querySelector("#input_files").files[i];
+  
+      const formData = new FormData()
+      formData.append("photo",selectedFile)
+  
+      console.log('selectedimgs',selectedFile.length);
+  
+      fetch(`${import.meta.env.VITE_BACKEND_API}/uploadImg`,{
+          method:"POST",
+          body: formData
+      }).then((res) => res.json())
+      .then((data)=>{
+          console.log(data.path);
+  
+          arr.push(data.path)
+         
+      })
     }
-    })
+    setTimeout(() => {
+      console.log("arr12312",arr);
+      fetch(`${import.meta.env.VITE_BACKEND_API}/patient_details`,{
+        method:"POST",
+        headers:{"content-type":"application/json"},
+        body:JSON.stringify({
+          Name :Name,
+          last_name:last_nom,
+          email:email,
+          phone:phone,
+          country:country,
+          state:state,
+          city:city,
+          zip_code:zip_code,
+          birth:birth,
+          emergency:emergency,
+          preference:preference,
+          gender:gender,
+          guardian:guardian,
+          patient_id:patient_id,
+          notes:notes,
+          address:address,
+          clinic_id:localStorage.getItem("clinic_id"),
+          clinic_name: localStorage.getItem("clinic_name"),
+          imgs:arr
+      })
+    
+    }).then((res)=>{
+        console.log('llll',res.status);
+        if(res.status == 200 ){
+         alert("works")
+         location.reload();
+        }else {
+          seterr(true)
+        }
+        })
+    }, 1500);
+ 
+
+
+    
+
+
   }
 
 }
+
+
+
+// const upload_Img=()=>{
+ 
+//   setTimeout(() => {
+//     console.log("arro231",arr.length);
+//     console.log("arro231",arr)
+//   }, 1000);
+ 
+// }
+
+
+
 
 const onchange= ()=>{
   // fetch(`http://localhost:8082/Search`,{
@@ -195,7 +240,7 @@ const delete_patient = ()=>{
                 </div>
 
                 <div>
-                  <Input value={phone} style={{width:"100%"}} onChange={(e)=>{setphone(e.target.value);}} label={"Phone Number"} placeholder={"Enter your Phone Number"}/>
+                  <Input type={"number"} value={phone} style={{width:"100%"}} onChange={(e)=>{setphone(e.target.value);}} label={"Phone Number"} placeholder={"Enter your Phone Number"}/>
                   {missing_phone&&
                     <div style={{color:"#FF9494 "}}>This is a required field</div>
                    }
@@ -219,10 +264,10 @@ const delete_patient = ()=>{
                             <div className='columns_orgs'>
                                   <div className='column_parts'>
                                     <Input  value={gender} onChange={(e)=>{setgender(e.target.value)}} label={"Gender"} placeholder={"Enter your Gender"}/>
-                                    <Input  value={patient_id} onChange={(e)=>{setpatient_id(e.target.value)}} label={"Patient Id"} placeholder={"Enter your Patient Id"}/>
+                                    <Input type={"number"}  value={patient_id} onChange={(e)=>{setpatient_id(e.target.value)}} label={"Patient Id"} placeholder={"Enter your Patient Id"}/>
                                 </div>
 
-                              
+                          
 
                                 <div className='column_parts'>
                                     <Input value={guardian} onChange={(e)=>{setguardian(e.target.value)}}  label={"Guardian/Parent Name "} placeholder={"Enter the Guardian/Parent Name "}/>
@@ -257,7 +302,7 @@ const delete_patient = ()=>{
                               
                           <div className='comp_dev'>
                             <label for="">Upload files</label> 
-                            <input className='input_comp' style={{height:"fit-content"}} type="file" placeholder='upload your files'/> 
+                            <input className='input_comp' id='input_files' style={{height:"fit-content"}} type="file" accept="image/*" multiple placeholder='upload your files'/> 
                           </div>
                   
                       </div>
@@ -319,6 +364,7 @@ const delete_patient = ()=>{
           }
 
           {!search_res?
+            // <button className='adding_patient_details' onClick={()=>{upload_Img()}}>Add</button>
             <button className='adding_patient_details' onClick={()=>{submit()}}>Add</button>
             :
             <button className='adding_patient_details' onClick={()=>{setsearch_res(false)}}>Add new patient</button>

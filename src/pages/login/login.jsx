@@ -39,7 +39,7 @@ function login() {
      }
      useEffect(() => {
 //      fetch('http://localhost:8082/auth/google/callback').then((res)=>{
-     fetch('http://localhost:8082/auth/google/callback').then((res)=>{
+     fetch(`${import.meta.env.VITE_BACKEND_API}/auth/google/callback`).then((res)=>{
   
       if(res.status(200)){
             navigate("/login")
@@ -59,23 +59,17 @@ function login() {
                         method:"POST",
                         headers:{"content-type":"application/json"},
                         body:JSON.stringify({
-                             username:email.value,
+                            email:email.value,
                             password:password.value
                       })
                 
-                    }).then((res)=>{
-                      console.log('llll',res.status);
-                      if(res.status == 200 ){
-                        navigate('/main_page')
-                      }else {
-                        seterr(true)
-                      }
-                    }
-                  
-                   
-                     
-                       
-                    )
+                    }).then((res)=> res.json())
+                    .then((data)=>{
+                        localStorage.setItem("clinic_id",data.clinic_id)
+                        localStorage.setItem("clinic_name",data.clinic_name)
+                    }).then((redirect)=>{
+                              navigate('/')
+                    })
             }else if ((email.value.includes('@')== false)||(email.value.includes('.')== false)){
                   setvaild_mail(true)
                 
@@ -97,13 +91,13 @@ function login() {
      }
 
      const google= ()=>{
-      window.open("http://localhost:8082/auth/google", "_self")
+      window.open(`${import.meta.env.VITE_BACKEND_API}/auth/google`, "_self")
      }
      const facebook= ()=>{
-      window.open("http://localhost:8082/auth/facebook", "_self")
+      window.open(`${import.meta.env.VITE_BACKEND_API}/auth/facebook`, "_self")
      }
      const microsoft= ()=>{
-      window.open("http://localhost:8082/auth/microsoft", "_self")
+      window.open(`${import.meta.env.VITE_BACKEND_API}/auth/microsoft`, "_self")
      }
 
   return (

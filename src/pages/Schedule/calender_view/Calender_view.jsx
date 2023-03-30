@@ -143,7 +143,7 @@ console.log("start",e["start"]);
           resizable={true}
           onEventResize={this.resizeEvent}
           // defaultView={"week"}
-          defaultDate={new Date(2023, 3, 12)}
+          // defaultDate={new Date(2023, 3, 12)}
         />
       </div>
       </>

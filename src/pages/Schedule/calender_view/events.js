@@ -107,7 +107,7 @@
   
 
 export default 
-fetch("http://localhost:8082/dates_appoint").then((res)=>res.json())
+fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint`).then((res)=>res.json())
 .then((data)=> data.forEach(e => {
   [
     {

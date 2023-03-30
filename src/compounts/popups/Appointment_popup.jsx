@@ -56,7 +56,7 @@ const submitter = ()=>{
                 <h3 className="header_appointment_pop">Please select the date of the appointment </h3>
 
                 <div className='date_dev'>
-                            <label htmlFor="">Appointment name</label>
+                            <label htmlFor="">Appointment/patient name </label>
                             <input className='input_date_time' style={{padding:"7px"}} placeholder='Please enter the appointment name' value={app_name} onChange={(e)=>{setapp_name(e.target.value)}} type="text" />
                  </div>
 
