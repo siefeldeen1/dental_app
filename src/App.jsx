@@ -3,9 +3,12 @@ import reactLogo from './assets/react.svg'
 import './App.css'
 import Router from './Router'
 import { MainContext } from '../utils/MainContext';
+import { useNavigate } from "react-router-dom";
+
 
 function App() {
-  
+
+  const navigate = useNavigate();
   const [img_api, setimg_api] = useState([])
   const [update_name, setupdate_name] = useState('')
   const [update_last_name, setupdate_last_name] = useState('')
@@ -17,6 +20,11 @@ function App() {
   const [password, setpassword] = useState('')
   const [view_Imgs, setview_Imgs] = useState([])
   const [patient_name, setpatient_name] = useState('')
+
+  if(!localStorage.getItem("clinic_id")){
+    navigate("/Signup")
+  }
+
 
   return (
     <>
