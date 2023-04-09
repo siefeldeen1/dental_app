@@ -20,7 +20,7 @@ import {MainContext} from '../../../utils/MainContext'
 import { IoWarningOutline } from 'react-icons/io5';
 import Button from '../../compounts/button/Button.jsx'
 import { useNavigate, useParams } from "react-router-dom";
-
+// declare module 'react-measurements'
 import {
         MeasurementLayer,
         calculateDistance,
