@@ -14,6 +14,7 @@ function Patient_view() {
   const [patients, setpatients] = useState([])
   const{ view_Imgs, setview_Imgs} = useContext(MainContext)
   const{ patient_name, setpatient_name} = useContext(MainContext)
+  const{ patient_id, setpatient_id} = useContext(MainContext)
   
   useEffect(() => {
       fetch(`${import.meta.env.VITE_BACKEND_API}/render_patients`,{
@@ -50,6 +51,7 @@ const user_Imgs= ()=>{
         console.log('daata21',data[0].imgs);
         setview_Imgs(data[0].imgs)
         setpatient_name([first,last])
+        setpatient_id(patient_id)
       }).then((redirect)=>{
         navigate('/view_imges')
       })

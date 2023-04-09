@@ -21,8 +21,8 @@ function App() {
   const [view_Imgs, setview_Imgs] = useState([])
   const [patient_name, setpatient_name] = useState('')
   const [islogged, setislogged] = useState()
-
- 
+  const [patient_id, setpatient_id] = useState()
+  const [table_under, settable_under] = useState()
 
 
   return (
@@ -39,6 +39,8 @@ function App() {
       password, setpassword,
       view_Imgs, setview_Imgs,
       patient_name, setpatient_name,
+      patient_id, setpatient_id,
+      table_under, settable_under,
     }}>
     <Router/>
     </MainContext.Provider>

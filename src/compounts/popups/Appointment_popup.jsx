@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Button from '../button/Button'
 import './Appoitment.css'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
+
 
 function Appointment_popup({start,end,value_s,value_e,value_name,style,onclick,name_change,value_descr}) {
     const [app_name, setapp_name] = useState('')
@@ -38,7 +40,9 @@ const submitter = ()=>{
             title:app_name,
             start:start_date,
             end:end_date,
-            descr:descr
+            descr:descr,
+            clinic_id:localStorage.getItem("clinic_id"),
+            clinic_name:localStorage.getItem("clinic_name")
         })
         
     }).then((res)=>res.json())
@@ -79,6 +83,11 @@ const submitter = ()=>{
                  </div>
                 
                 <Button onclick={()=>{submitter();onclick()}} text={"Confirm"}/>
+
+                <div className='close_btn' onClick={()=>{onclick()}}>
+                    <AiOutlineCloseCircle size={21} color="white"/>
+                </div>
+                
         </div>
     </div>
   )

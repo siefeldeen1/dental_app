@@ -6,12 +6,20 @@ import { useNavigate } from "react-router-dom";
 function View_imgs() {
     const{ view_Imgs, setview_Imgs} = useContext(MainContext)
     const{ patient_name, setpatient_name} = useContext(MainContext)
+    const{ patient_id, setpatient_id} = useContext(MainContext)
 
     const navigate = useNavigate();
 
          console.log(JSON.parse(view_Imgs));
          console.log(patient_name);
-       
+       console.log("patient_id",patient_id);
+
+    const onclick= (e)=>{
+        console.log("eclicked",e.currentTarget.getAttribute("datatype"));
+        const img_no = e.currentTarget.getAttribute("datatype")
+        navigate(`/${patient_id}_img:${img_no}`)
+    }
+
   return (
     <div>
         <header className='header_body_viewimgs'>
@@ -24,7 +32,7 @@ function View_imgs() {
                 {JSON.parse(view_Imgs).map((e,i)=>{
                     console.log('adssada',e);
                     return(
-                        <img key={i} className="imgs_inview_imgs" src={`${import.meta.env.VITE_BACKEND_API}/${e}`} alt="" />
+                        <img key={i} datatype={`${i}`} onClick={(e)=>{onclick(e)}} className="imgs_inview_imgs" src={`${import.meta.env.VITE_BACKEND_API}/${e}`} alt="" />
                     )
                 })
 

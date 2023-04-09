@@ -19,31 +19,78 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import {MainContext} from '../../../utils/MainContext'
 import { IoWarningOutline } from 'react-icons/io5';
 import Button from '../../compounts/button/Button.jsx'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Upscaler from 'upscaler'; 
+import {
+        MeasurementLayer,
+        calculateDistance,
+        calculateArea
+      } from "react-measurements";
 
 
+// tf.ENV.set('WEBGL_PACK', false)
 
 function denstist() {
- const navigate = useNavigate();
+ 
+ 
+       const navigate = useNavigate();
 const [fullscreen_pop, setfullscreen_pop] = useState(false)        
-const [magnifier, setmagnifier] = useState(false)
+const [magnifier, setmagnifier] = useState(1)
 const [data_arr, setdata_arr] = useState()
 const [tooth_arr, settooth_arr] = useState()
 
 const{ img_api, setimg_api} = useContext(MainContext)
 const{ pop, setpop} = useContext(MainContext)
 const{ saver, setsaver} = useContext(MainContext)
+const{ table_under, settable_under} = useContext(MainContext)
 
 const [numbering, setnumbering] = useState([])
 
+const [patient_name, setpatient_name] = useState("")
+const [patient_id, setpatient_id] = useState()
+const [birth, setbirth] = useState()
+const [patient_img, setpatient_img] = useState()
+const [upscaler, setupscaler] = useState()
+const [measurements, setMeasurements] = React.useState([]);
+// const {id} = useParams()
 // const fileInput = document.querySelector('#your-file-input') ;
 // const formData = new FormData();
-
 // formData.append('file', fileInput.files[0]);
 
 
 
+
 useEffect(() => {
+
+        const pathname = window.location.pathname
+        // console.log("pathname",pathname.split("_")[1].split(":")[1]);
+        
+                const patient_id = pathname.split("_")[0].split("/")[1]
+                const img_no = pathname.split("_")[1].split(":")[1]
+             
+        
+       
+      
+        fetch(`${import.meta.env.VITE_BACKEND_API}/render_imgs`,{
+                method:"get",
+                headers:{
+                  clinic_id:localStorage.getItem("clinic_id"),
+                  clinic_name: localStorage.getItem("clinic_name"),
+                  patient_id:patient_id
+                }
+              }).then((res)=> res.json())
+              .then((data)=>{
+                // console.log("img_data",data[0]);
+                // console.log("img_data",Object.values(JSON.parse(data[0].data).reverse()));
+                setpatient_name([data[0].name,data[0].last_name])
+                setpatient_id(patient_id)
+                setbirth(data[0].birth_date)
+                setpatient_img(JSON.parse(data[0].imgs)[img_no])
+                settooth_arr(Object.values(JSON.parse(data[0].data)[img_no].Output))
+                settable_under(Object.values(JSON.parse(data[0].data)[img_no].Output))
+                // settable_under(Object.values(JSON.parse(data[0].data)[img_no].Output))
+              })
+        //       console.log("table_under",tooth_arr);
         if(localStorage.getItem("clinic_id") == null){
                 navigate("/Signup")
               }
@@ -78,30 +125,30 @@ useEffect(() => {
 
 
 // fetch("http://localhost:8082/json_test").then((res)=>res.json())
-fetch(`${import.meta.env.VITE_BACKEND_API}/json_test`).then((res)=>res.json())
-.then((data)=>{
-        console.log("test_Data",data.Output);
-        setdata_arr(data.Output)
-        settooth_arr(Object.values(data.Output))
-        console.log("asdsadasgtr",Object.keys(data.Output));
+// fetch(`${import.meta.env.VITE_BACKEND_API}/json_test`).then((res)=>res.json())
+// .then((data)=>{
+//         console.log("test_Data",data.Output);
+//         setdata_arr(data.Output)
+//         settooth_arr(Object.values(data.Output))
+//         console.log("asdsadasgtr",Object.keys(data.Output));
 
-        var images = [];
-        const canvas = document.getElementById('main_img');
-        const ctx = canvas.getContext('2d');
-        let img = new Image
-        img.src = Teeth
-        ctx.globalCompositeOperation = "destination-over";
-        img.onload = () => {
-        ctx.drawImage(img, 0, 0,300,170)
-        }
-        for (let i = 0; i < Object.keys(data.Output).length; i++) {
-              console.log("askdskads",data.Output[i][2]);
+//         var images = [];
+//         const canvas = document.getElementById('main_img');
+//         const ctx = canvas.getContext('2d');
+//         let img = new Image
+//         img.src = Teeth
+//         ctx.globalCompositeOperation = "destination-over";
+//         img.onload = () => {
+//         ctx.drawImage(img, 0, 0,300,170)
+//         }
+//         for (let i = 0; i < Object.keys(data.Output).length; i++) {
+//               console.log("askdskads",data.Output[i][2]);
                 
-              images[i] = new Image();
+//               images[i] = new Image();
 
-              images[i].src = `data:image/png;base64,${data.Output[i][3]}`;
+//               images[i].src = `data:image/png;base64,${data.Output[i][3]}`;
            
-              let img2= new Image
+//               let img2= new Image
               
               
            
@@ -110,44 +157,44 @@ fetch(`${import.meta.env.VITE_BACKEND_API}/json_test`).then((res)=>res.json())
             
 
    
-        //       images[i].onload = () => {
-        //           // Draw the image onto the context
-        //         //   console.log("testing imag",images[i],data.Output[i][2][0], data.Output[i][2][1], data.Output[i][2][2], data.Output[i][2][3], data.Output[i][2][4], data.Output[i][2][5]);
+//         //       images[i].onload = () => {
+//         //           // Draw the image onto the context
+//         //         //   console.log("testing imag",images[i],data.Output[i][2][0], data.Output[i][2][1], data.Output[i][2][2], data.Output[i][2][3], data.Output[i][2][4], data.Output[i][2][5]);
           
-        //         ctx.drawImage(images[i],0, 0, 300, 170,)
+//         //         ctx.drawImage(images[i],0, 0, 300, 170,)
                  
                  
-        //         //   ctx.drawImage(img, 0, 0,300,180)
+//         //         //   ctx.drawImage(img, 0, 0,300,180)
                 
                 
-        //         //   ctx.drawImage(images[i],data.Output[i][2][5], data.Output[i][2][4], data.Output[i][2][3], data.Output[i][2][2], data.Output[i][2][1], data.Output[i][2][0])
-        //         //  ctx.drawImage(images[i],400, 200, 200, 200, 0.1, 1,400,400)
+//         //         //   ctx.drawImage(images[i],data.Output[i][2][5], data.Output[i][2][4], data.Output[i][2][3], data.Output[i][2][2], data.Output[i][2][1], data.Output[i][2][0])
+//         //         //  ctx.drawImage(images[i],400, 200, 200, 200, 0.1, 1,400,400)
                      
-        //         }
+//         //         }
 
-        }
-        // data.Output.forEach(e => {
-        // console.log('dataout',e);
-        // });
+//         }
+//         // data.Output.forEach(e => {
+//         // console.log('dataout',e);
+//         // });
 
 
-        // const canvas = document.getElementById('main_img');
-        // const ctx = canvas.getContext('2d');
-        // let img = new Image
-        // let img2 = new Image
+//         // const canvas = document.getElementById('main_img');
+//         // const ctx = canvas.getContext('2d');
+//         // let img = new Image
+//         // let img2 = new Image
         
         
-        // img.src = Teeth
+//         // img.src = Teeth
 
         
-        // img2.onload = () => {
-        //     // Draw the image onto the context
-        //     ctx.drawImage(img, 0, 0,300,180)
-        // //     context.globalCompositeOperation = "source-in";
-        //     ctx.drawImage(img2,265, 200, 286, 228, 0.8677796125411987, 1)
-        // }
+//         // img2.onload = () => {
+//         //     // Draw the image onto the context
+//         //     ctx.drawImage(img, 0, 0,300,180)
+//         // //     context.globalCompositeOperation = "source-in";
+//         //     ctx.drawImage(img2,265, 200, 286, 228, 0.8677796125411987, 1)
+//         // }
 
-})
+// })
 
 
 
@@ -175,6 +222,65 @@ const numb_changer = ()=>{
         }
 }
 
+const handleChange = measurements => {
+        setMeasurements(measurements);
+      };
+    
+      const measureLine = line => {
+        const r = Math.round(calculateDistance(line, 100, 100)) + " mm";
+        // console.log("r", r);
+        return r;
+      };
+      const measureCircle = circle =>
+      Math.round(calculateArea(circle, 100, 100)) + " mm²";
+const measurement= ()=>{
+        if(magnifier != 4 ){
+                setmagnifier(4)
+        }else{
+                setmagnifier(1)
+        }
+}
+
+const upscale = ()=>{
+        if(magnifier != 3 ){
+                setmagnifier(3)
+        }else{
+                setmagnifier(1)
+        }
+
+        // const upscaler = new Upscaler();
+        // upscaler.upscale.dispose(`${import.meta.env.VITE_BACKEND_API}/${patient_img}`).then(upscaledSrc => {
+        //   // base64 representation of image src
+        //   console.log('upscale',upscaledSrc);
+          
+        //   setupscaler(upscaledSrc)
+         
+        // }).then((res)=>{
+        //         // upscale.dispose().then(() => {
+        //         //         console.log('I am all cleaned up')
+        //         //       })
+        // })
+
+        // const selectedFile = `${import.meta.env.VITE_BACKEND_API}/${patient_img}`
+  
+        // const formData = new FormData()
+        // formData.append("image",selectedFile)
+    
+        // console.log('selectedimgs',selectedFile);
+        
+        fetch(`${import.meta.env.VITE_BACKEND_API}/imgqulity`,{
+                method: 'POST',
+                headers:{"content-type":"application/json"},
+                body:JSON.stringify({
+                img:`${import.meta.env.VITE_BACKEND_API}/${patient_img}`
+                })
+        }).then((res)=>res.json())
+        .then((data)=>{
+                console.log("data231",data.img);
+                setupscaler(data.img)
+        })
+
+}
 
 const activate = (e)=>{
 document.querySelectorAll(".numb_buble").forEach(ele => {
@@ -209,7 +315,12 @@ const zoom = (e)=>{
 }
 
 const maginfy =()=>{
-        setmagnifier(!magnifier)
+        if (magnifier !=2 ){
+         setmagnifier(2)
+        }else {
+         setmagnifier(1)
+        }
+        
 }
 
 
@@ -244,29 +355,30 @@ const maginfy =()=>{
         </div>
         
         <div style={{width:"100%",height:"100%"}}>
-        <Header numb={numb_changer}/>
+        <Header numb={numb_changer} patient_id={patient_id} patient_name={patient_name} birth={birth}/>
                 <div style={{display:"flex",width:"100%",height:"100%"}}>
                         <div style={{width:"100%",flex:"3"}}>
                                 <div className='big_contain'>
                                 {/* img and teeth */}
                                 <div>
-                                      { magnifier?
+                                      { magnifier == 2&&
                                       <ReactImageMagnify {...{
                                         smallImage: {
                                             alt: '',
                                             isFluidWidth: true,
-                                            src: Teeth,
+                                            src: `${import.meta.env.VITE_BACKEND_API}/${patient_img}`,
                                               
                                         },
                                         largeImage: {
-                                            src: Teeth,
+                                            src: `${import.meta.env.VITE_BACKEND_API}/${patient_img}`,
                                             width: 2000,
                                             height: 1800,
                                         
                                         
-                                        },className:"big_img",enlargedImageContainerDimensions:{width: '80%', height: '80%'}
+                                        },className:"big_img",enlargedImageContainerDimensions:{width: '68%', height: '80%'}
                                        
-                                    }} />:
+                                    }} />}
+                                 { magnifier == 1&&   
                                  <TransformWrapper>
                                          {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
                                          <div className="tools">
@@ -276,16 +388,17 @@ const maginfy =()=>{
                                         </div>
                                          )}
                                         <TransformComponent>
-                                        <div className='img_cont' id='img_container_main'>
+                                        <>
+                                        {/* <div className='img_cont' id='img_container_main'> */}
                                       
                                             
                                                 {/* <canvas style={{width:"100%",height:"100%"}} id='main_img'></canvas> */}
-                                                <img  style={{width:"100%",height:"100%"}} src={Teeth} id='main_img' alt="" />
+                                                <img  style={{width:"100%",height:"100%"}} src={`${import.meta.env.VITE_BACKEND_API}/${patient_img}`} id='main_img' alt="" />
                                                 {/* <div style={{position:"absolute"}}> */}
                                                      { tooth_arr?.map((e,i)=>{
                                                         return(
                                                                 
-                                                                <img src={`data:image/png;base64,${e[3]}`} style={{position:"absolute",width:"100%",height:"100%"}} id={`imgno_${e[4]}`} alt="" />
+                                                                <img  src={`data:image/png;base64,${e[3]}`}  style={{position:"absolute",width:"100%",height:"100%",zIndex:`999${i}`}} className="teeth_masks" id={`imgno_${i}`} alt="" />
                                                                 
                                                      
                                                         )
@@ -294,9 +407,71 @@ const maginfy =()=>{
                                                         }
                                                 {/* </div> */}
                                          {/* <img style={{width:"100%",height:"100%"}} id='main_img' src={Xray} alt="" /> */}
-                                        </div>
+                                        </>
                                 </TransformComponent>
                                 </TransformWrapper>
+                                }
+                                { magnifier == 3&&   
+                                                <div className='img_cont' id='img_container_main'>
+                                                  <img  style={{width:"100%",height:"100%"}} src={upscaler} alt="" />
+                                                { tooth_arr?.map((e,i)=>{
+                                                  
+                                                        return(
+                                                                
+                                                                <img src={`data:image/png;base64,${e[3]}`} style={{position:"absolute",width:"100%",height:"100%",zIndex:`999${i}`}} id={`imgno_${i}}`} alt="" />
+                                                                
+                                                     
+                                                        )
+                                                     })  
+                                                      
+                                                        }
+                                                </div>
+                                      
+
+                                }
+                                { magnifier == 4&&   
+                                <div style={{width:"100%",height:"100%",position:"relative"}}>
+                                                 <div
+                                        style={{
+                                        // position: "absolute",
+                                        // width: "770px",
+                                        // height: "500px",
+                                        zIndex:"9999999999",
+                                        backgroundColor: "#1a1a1a",
+                                        fontFamily: "sans-serif"
+                                }}
+                              >
+                                  <div className='img_cont' id='img_container_main'>
+                                      
+                                            
+                                      {/* <canvas style={{width:"100%",height:"100%"}} id='main_img'></canvas> */}
+                                      <img  style={{width:"100%",height:"100%"}} src={`${import.meta.env.VITE_BACKEND_API}/${patient_img}`} id='main_img' alt="" />
+                                      {/* <div style={{position:"absolute"}}> */}
+                                           { tooth_arr?.map((e,i)=>{
+                                              return(
+                                                      
+                                                      <img src={`data:image/png;base64,${e[3]}`} style={{position:"absolute",width:"100%",height:"100%"}} id={`imgno_${e[4]}`} alt="" />
+                                                      
+                                           
+                                              )
+                                           })  
+                                            
+                                              }
+                                      {/* </div> */}
+                               {/* <img style={{width:"100%",height:"100%"}} id='main_img' src={Xray} alt="" /> */}
+                              </div>
+                                <MeasurementLayer
+                                  measurements={measurements}
+                                  widthInPx={770}
+                                  heightInPx={740}
+                                  onChange={handleChange}
+                                  measureLine={measureLine}
+                                 measureCircle={measureCircle}
+                                />
+                              </div>
+                                </div>
+                               
+                                        
                                 }
 
                                 {/* legends */}
@@ -326,11 +501,11 @@ const maginfy =()=>{
 
         <div > 
                 <Tool_bar fullscreen={()=>{fullscreen_on()}} brightness={(e)=>{bightness(e)}} contrast={(e)=>{contrast(e)}} 
-                        invert={(e)=>{invert(e)}} maginfy={()=>{maginfy()}}  zoom={(e)=>{zoom(e)}}
+                        invert={(e)=>{invert(e)}} maginfy={()=>{maginfy()}} measurement={()=>{measurement()}} upscale={()=>{upscale()}}  zoom={(e)=>{zoom(e)}}
                 />
         </div>
 
-                        <div style={{display:"flex",flexDirection:"column",width:"100%",flex:"1"}}>
+                        <div style={{}}>
                                 <div>
                                         {/* teeth_Widget */}
                                         <div className='teeth_Widget'>
@@ -670,7 +845,7 @@ const maginfy =()=>{
                                 </div>
                                  
                                  <div style={{height:"100%"}}>
-                                        <Table/>
+                                        <Table table_under={tooth_arr}/>
                                  </div>
                         </div>
                 </div>

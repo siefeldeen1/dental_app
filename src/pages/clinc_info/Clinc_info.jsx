@@ -4,6 +4,8 @@ import Textarea from '../../compounts/textarea/Textarea';
 import './Clinc.css'
 import {MainContext} from '../../../utils/MainContext'
 import { useNavigate } from "react-router-dom";
+import { Country, State, City } from "country-state-city";
+import Select from "react-select";
 
 
 function Clinc_info() {
@@ -35,24 +37,56 @@ function Clinc_info() {
     const [missing_first, setmissing_first] = useState(false)
     const [missing_phone, setmissing_phone] = useState(false)
     const [missing_last, setmissing_last] = useState(false)
+    const [invaild_email_cl, setinvaild_email_cl] = useState(false)
+
+    const [selectedCountry, setSelectedCountry] = useState({name:""});
+    const [selectedState, setSelectedState] = useState({name:""});
+    const [selectedCity, setSelectedCity] = useState({name:""});
 
     const{ email, setemail} = useContext(MainContext)
     const{ password, setpassword} = useContext(MainContext)
  
-    const submit = ()=>{
 
-        if (Business_name.length < 1){
-            setmissing_name(true)
-          }else if (phone_off.length < 1){
-            setmissing_phone(true)
-          }else if (first_nom.length < 1){
-            setmissing_first(true)
-          } else if(last_nom.length < 1){
-            setmissing_last(true)
-          }else if ((email_off.includes('@')== false)||(email_off.includes('.')== false)) {
-            setinvaild_email(true)
-          } 
-          else{
+const checker = ()=> {
+  if (Business_name.length < 1){
+    setmissing_name(true)
+  }else if (phone_off.length < 1){
+    setmissing_phone(true)
+  }else if (first_nom.length < 1){
+    setmissing_first(true)
+  } else if(last_nom.length < 1){
+    setmissing_last(true)
+  }else if ((email_off.includes('@')== false)||(email_off.includes('.')== false)) {
+    setinvaild_email(true)
+  }
+   else if(email_cl.length >1){
+
+  }else if (email_cl.length == 0 ) {
+    submit()
+  } else if(email_cl.length >1){
+    if((email_cl.includes('@')== false)||(email_cl.includes('.')== false)){
+      setinvaild_email_cl(true)
+    }else{
+      submit()
+    }
+  }
+}
+
+
+    const submit = ()=>{
+      // console.log(selectedCity.name,selectedCountry.name,selectedState.name);
+        // if (Business_name.length < 1){
+        //     setmissing_name(true)
+        //   }else if (phone_off.length < 1){
+        //     setmissing_phone(true)
+        //   }else if (first_nom.length < 1){
+        //     setmissing_first(true)
+        //   } else if(last_nom.length < 1){
+        //     setmissing_last(true)
+        //   }else if ((email_off.includes('@')== false)||(email_off.includes('.')== false)) {
+        //     setinvaild_email(true)
+        //   } 
+        //   else{
             const value = document.getElementById("numbering_type").value
             localStorage.setItem("counting",value)
             setinvaild_email(false)
@@ -69,9 +103,9 @@ function Clinc_info() {
               phone_off:phone_off,
               email:email_cl,
               phone:phone,
-              country:country,
-              state:state,
-              city:city,
+              country:selectedCountry.name,
+              state:selectedState.name,
+              city:selectedCity.name,
               zip_code:zip_code,
               address:address,
               facebook:facebook,
@@ -92,7 +126,7 @@ function Clinc_info() {
              })
           }
         
-        }
+        // }
   
     
             // console.log('llll',res.status);
@@ -154,16 +188,158 @@ function Clinc_info() {
 
                                 <div>
                                 <Input value={email_cl} onChange={(e)=>{setemail_cl(e.target.value)}} label={"Email"} placeholder={"Enter your email"}/>
-                                {invaild_email&&
+                                {invaild_email_cl&&
                                 <div style={{color:"#FF9494 "}}> please enter a vaild email </div>
                                 }
                                 </div>
+                                <div className='comp_dev'>
+                                  <label for="">Country</label> 
+
+                                    <Select
+                                    options={Country.getAllCountries()}
+                                    getOptionLabel={(options) => {
+                                      return options["name"];
+                                    }}
+                                    getOptionValue={(options) => {
+                                      return options["name"];
+                                    }}
+                                    value={selectedCountry}
+                                    onChange={(item) => {
+                                      setSelectedCountry(item);
+                                    }}
+                                    label="Country"
+                                    // className="input_comp"
+                                    styles={{control: (base, state) => ({
+                                      ...base,
+                                      background: "#3A3C3E", borderRadius:  "5px" ,
+                                      color:"white",
+                                      borderColor: null,
+                                      boxShadow: null,
+                                      borderWidth: 0 ,
+                                      "&:hover": {
+                                        borderColor: null }}),
+                                        menu: base => ({
+                                          ...base,
+                                          background: "#3A3C3E",
+                                          color:"white"
+                                        }),
+                                        
+                                      }}
+                                      classNamePrefix="react_select_color"
+                                    theme={(theme) => ({
+                                      ...theme,
+                                      borderRadius: 0,
+                                    
+                                      colors: {
+                                      ...theme.colors,
+                                        text: 'white',
+                                        primary25: 'hotpink',
+                                        primary: 'black',
+                                      },
+                                    })}
+                                  />
+                                </div>
+                                    
+
+                                <div className='comp_dev'>
+                                  <label for="">City</label> 
+                                      <Select
+                                      options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
+                                      getOptionLabel={(options) => {
+                                        return options["name"];
+                                      }}
+                                      getOptionValue={(options) => {
+                                        return options["name"];
+                                      }}
+                                      value={selectedState}
+                                      onChange={(item) => {
+                                        setSelectedState(item);
+                                      }}
+                                      styles={{control: (base, state) => ({
+                                        ...base,
+                                        background: "#3A3C3E", borderRadius:  "5px" ,
+                                        color:"white",
+                                        borderColor: null,
+                                        boxShadow: null,
+                                        borderWidth: 0 ,
+                                        "&:hover": {
+                                          borderColor: null }}),
+                                          menu: base => ({
+                                            ...base,
+                                            background: "#3A3C3E",
+                                            color:"white"
+                                          }),
+                                          
+                                        }}
+                                        classNamePrefix="react_select_color"
+                                      theme={(theme) => ({
+                                        ...theme,
+                                        borderRadius: 0,
+                                      
+                                        colors: {
+                                        ...theme.colors,
+                                          text: 'white',
+                                          primary25: 'hotpink',
+                                          primary: 'black',
+                                        },
+                                      })}
+                                      />
+                                </div>
+                                
+                                <div className='comp_dev'>
+                                  <label for="">State</label> 
+                                        <Select
+                                        options={City.getCitiesOfState(
+                                          selectedState?.countryCode,
+                                          selectedState?.isoCode
+                                        )}
+                                        getOptionLabel={(options) => {
+                                          return options["name"];
+                                        }}
+                                        getOptionValue={(options) => {
+                                          return options["name"];
+                                        }}
+                                        value={selectedCity}
+                                        onChange={(item) => {
+                                          setSelectedCity(item);
+                                        }}
+                                        styles={{control: (base, state) => ({
+                                          ...base,
+                                          background: "#3A3C3E", borderRadius:  "5px" ,
+                                          color:"white",
+                                          borderColor: null,
+                                          boxShadow: null,
+                                          borderWidth: 0 ,
+                                          "&:hover": {
+                                            borderColor: null }}),
+                                            menu: base => ({
+                                              ...base,
+                                              background: "#3A3C3E",
+                                              color:"white"
+                                            }),
+                                            
+                                          }}
+                                          classNamePrefix="react_select_color"
+                                        theme={(theme) => ({
+                                          ...theme,
+                                          borderRadius: 0,
+                                        
+                                          colors: {
+                                          ...theme.colors,
+                                            text: 'white',
+                                            primary25: 'hotpink',
+                                            primary: 'black',
+                                          },
+                                        })}
+                                      />
+                                </div>
+
 
                                 <Input value={address} onChange={(e)=>{setaddress(e.target.value)}} label={"Street Address "} placeholder={"Enter patient Street Address "}/>
-                                <Input value={city} onChange={(e)=>{setcity(e.target.value)}} label={"City"} placeholder={"Enter patient City"}/>
+                                {/* <Input value={city} onChange={(e)=>{setcity(e.target.value)}} label={"City"} placeholder={"Enter patient City"}/>
                                 <Input value={state} onChange={(e)=>{setstate(e.target.value)}} label={"State"} placeholder={"Enter patient State"}/>
-                                <Input value={country} onChange={(e)=>{setcountry(e.target.value)}} label={"Country"} placeholder={"Enter patient Country"}/>
-                                <Input value={zip_code} onChange={(e)=>{setzip_code(e.target.value)}} label={"Zip Code"} placeholder={"Enter patient Zip Code"}/>
+                                <Input value={country} onChange={(e)=>{setcountry(e.target.value)}} label={"Country"} placeholder={"Enter patient Country"}/> */}
+                                <Input type={"number"} value={zip_code} onChange={(e)=>{setzip_code(e.target.value)}} label={"Zip Code"} placeholder={"Enter patient Zip Code"}/>
 
                             </div>
 
@@ -215,7 +391,7 @@ function Clinc_info() {
                     </div>
 
            
-                <button className='adding_patient_details' onClick={()=>{submit()}}>Continue</button>
+                <button className='adding_patient_details' onClick={()=>{checker()}}>Continue</button>
              
                     </div>
     </div>

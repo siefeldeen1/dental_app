@@ -49,7 +49,7 @@ function Tool_bar(props) {
             </div>
 
             <div className='tool_bar_icon_dev'>
-                <abbr title="Measurements" onClick={(e)=>{active_icon(e)}} className='tool_bar_icon'><RulerMeasure/></abbr>
+                <abbr title="Measurements" onClick={(e)=>{active_icon(e);props.measurement()}} className='tool_bar_icon'><RulerMeasure/></abbr>
             </div>
 
             <div className='tool_bar_icon_dev'>
@@ -121,7 +121,7 @@ function Tool_bar(props) {
            
 
             <div className='tool_bar_icon_dev'>
-                <abbr title="Enhanced View" onClick={(e)=>{active_icon(e)}} className='tool_bar_icon'><BsEyeSlashFill/></abbr>
+                <abbr title="Enhanced View" onClick={(e)=>{active_icon(e);props.upscale()}} className='tool_bar_icon'><BsEyeSlashFill/></abbr>
             </div>
 
             <div className='tool_bar_icon_dev'>

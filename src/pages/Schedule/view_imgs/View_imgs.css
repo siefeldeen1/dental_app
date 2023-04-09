@@ -1,6 +1,6 @@
 .view_imgs_grid{
     display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-columns: 24% 24% 24% 24%;
 
     height: 100%;
     gap: 15px;

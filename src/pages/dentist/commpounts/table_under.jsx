@@ -12,7 +12,7 @@ import {MainContext} from '../../../../utils/MainContext'
 import Button from '../../../compounts/button/Button.jsx'
 import Textarea from '../../../compounts/textarea/Textarea'
 
-function table_under() {
+function table_under(props) {
     const [watch_on, setwatch_on] = useState(true)
     const [data_arr, setdata_arr] = useState()
     const{ pop, setpop} = useContext(MainContext)
@@ -21,22 +21,23 @@ function table_under() {
     const [tempData, settempData] = useState([])
     const [comment, setcomment] = useState('')
     const [teeth_no, setteeth_no] = useState("")
-
+    const{ table_under, settable_under} = useContext(MainContext)
     useEffect(() => {
      
         // fetch("${import.meta.env.VITE_BACKEND_API}/json_test",{
-        fetch(`${import.meta.env.VITE_BACKEND_API}/json_test`,{
-            "headers" : {
-                'Content-Type': 'application/json'
-            },
-        }).then((res)=>res.json())
-.then((data)=>{console.log("test_Data2",Object.values(data.Output));
+//         fetch(`${import.meta.env.VITE_BACKEND_API}/json_test`,{
+//             "headers" : {
+//                 'Content-Type': 'application/json'
+//             },
+//         }).then((res)=>res.json())
+// .then((data)=>{console.log("test_Data2",Object.values(data.Output));
 
-        setdata_arr(Object.values(data.Output))
-        settempData(Object.values(data.Output))
-        })
+//         setdata_arr(Object.values(data.Output))
+//         settempData(Object.values(data.Output))
+//         })
 
-   
+            // setdata_arr(props.table_under)
+             settempData(props.table_under)
 
     }, [])
     
@@ -79,7 +80,7 @@ const onsave=()=>{
       })
     
     }).then((res)=>{
-        console.log('llll',res.status);
+        
         if(res.status == 200 ){
          alert("works")
         }else {
@@ -88,6 +89,93 @@ const onsave=()=>{
         })
       
 }
+
+const toggler = (e)=>{
+    console.log("sadasdasdasdasd");
+    // console.log(e.currentTarget.getAttribute("id").split("no")[1]);
+    const item_id = e.currentTarget.getAttribute("id")
+    const element_no = e.currentTarget.getAttribute("id").split("no")[1]
+    const isactive = document.getElementById(item_id).classList.contains("focused_table_data")
+
+console.log(document.getElementById(item_id).classList.contains("focused_table_data"));
+    if(!isactive == false){
+        console.log("isactive",!isactive);
+        document.getElementById(item_id).classList.remove("focused_table_data")
+    }else {
+        document.getElementById(item_id).classList.add("focused_table_data")
+    }
+    
+
+}
+
+const focus_mode = (e)=>{
+// toggler(e)
+console.log(e.currentTarget.getAttribute("id").split("no")[1]);
+const item_id = e.currentTarget.getAttribute("id")
+const element_no = e.currentTarget.getAttribute("id").split("no")[1]
+const isactive = document.getElementById(item_id).classList.contains("focused_table_data")
+
+if(!isactive == false){
+    document.querySelectorAll(".table_data").forEach(e => {
+        // e.style.background="unset"
+        e.classList.remove("focused_table_data")
+    });
+}else {
+    document.querySelectorAll(".table_data").forEach(e => {
+        // e.style.background="unset"
+        e.classList.remove("focused_table_data")
+    });
+    document.getElementById(item_id).classList.add("focused_table_data")
+}
+
+
+// document.getElementById(item_id).classList.add("focused_table_data")
+
+// document.getElementById(item_id).style.background = "red"
+
+
+
+
+
+// if(document.getElementById(item_id).style.background == "unset"){
+//     document.getElementById(item_id).style.background = "red"
+// }else{
+//     document.getElementById(item_id).style.background = "unset"
+   
+//     console.log(document.getElementById(item_id).style.background );
+// }
+
+
+// document.querySelectorAll(".teeth_masks").forEach(e => {
+//     e.style.opacity="0"
+// });
+
+// if( document.getElementById(`imgno_${element_no}`).style.opacity == "1" ){
+//     document.getElementById(`imgno_${element_no}`).style.opacity="0"
+// }else{
+//     document.getElementById(`imgno_${element_no}`).style.opacity="1"
+// }
+const isactive2 = document.getElementById(`imgno_${element_no}`).classList.contains("focused_tooth_mask")
+
+if(!isactive2 == false){
+    document.querySelectorAll(".teeth_masks").forEach(e => {
+        // e.style.background="unset"
+        e.classList.remove("focused_tooth_mask")
+        e.style.opacity="1"
+    });
+}else {
+    document.querySelectorAll(".teeth_masks").forEach(e => {
+        // e.style.background="unset"
+        e.style.opacity="0"
+        e.classList.remove("focused_tooth_mask")
+    });
+    document.getElementById(`imgno_${element_no}`).classList.add("focused_tooth_mask")
+}
+
+
+
+}
+
 
 
 
@@ -175,14 +263,15 @@ const onsave=()=>{
 
                 <div className='table_data_organizer'>
 
-                {data_arr?.map((e,i)=>{
+                {table_under?.map((e,i)=>{
+                    // console.log("table_under",e);
                     return(
-                        <div className='table_data' key={i}>
+                        <div className='table_data' id={`table_no${i}`} onClick={(e)=>{focus_mode(e)}} key={i} >
                         <div style={{display:"flex",justifyContent:"center"}}>
                             <div className='tooth_class'>12</div>
                         </div>
 
-                        <div style={{display:"flex",justifyContent:"flex-start",marginTop:"-10px"}}>
+                        <div style={{display:"flex",justifyContent:"flex-start"}}>
                             <div className='finding_table'>
                                 <div >{e[0]}</div>
                                 <div className='tags_Dev'>

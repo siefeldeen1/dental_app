@@ -9,8 +9,9 @@ import Textarea from '../../compounts/textarea/Textarea';
 import Button from '../../compounts/button/Button';
 import {MainContext} from '../../../utils/MainContext'
 import { useNavigate } from "react-router-dom";
-
-
+import { Country, State, City } from "country-state-city";
+import Select from "react-select";
+import Loader from '../../compounts/loader/Loader';
 
 
 function Patient_details() {
@@ -50,35 +51,93 @@ function Patient_details() {
   const{ update_phone, setupdate_phone} = useContext(MainContext)
   const{ update_birth, setupdate_birth} = useContext(MainContext)
 
+  
+  const [selectedCountry, setSelectedCountry] = useState({name:""});
+  const [selectedState, setSelectedState] = useState({name:""});
+  const [selectedCity, setSelectedCity] = useState({name:""});
+  const [loader, setloader] = useState(false)
+
   let arr = []
+  let predect_arr = []
 
-const submit = ()=>{
-  console.log(Name,email,phone,address,birth,
-    emergency,preference,gender,guardian,patient_id,notes);
-
-   if (Name.length < 1){
+const checker = ()=>{
+  if (Name.length < 1){
     setmissing_name(true)
   }else if (phone.length < 1){
     setmissing_phone(true)
-  }else if (birth.length < 1){
+  }else if (birth.length < 1){setSelectedState
     setmissing_date(true)
   } else if(last_nom.length < 1){
     setmissing_last(true)
-  }
-  // else if ((email.length != 0)&&(email.includes('@')== false)||(email.includes('.')== false)) {
-  //   setinvaild_email(true)
-  // } 
-  else{
-    setinvaild_email(false)
+  }else if(email.length >1){
 
+  }else if (email.length == 0 ) {
+    submit()
+  } else if(email.length >1){
+    if((email.includes('@')== false)||(email.includes('.')== false)){
+      setinvaild_email(true)
+    }else{
+      submit()
+    }
+  }
+}
+
+
+
+const submit = ()=>{
+
+ 
+
+  //  if (Name.length < 1){
+  //   setmissing_name(true)
+  // }else if (phone.length < 1){
+  //   setmissing_phone(true)
+  // }else if (birth.length < 1){setSelectedState
+  //   setmissing_date(true)
+  // } else if(last_nom.length < 1){
+  //   setmissing_last(true)
+  // }
+  // else if (email.length !== 0) {
+  //   if((email.includes('@')== false)||(email.includes('.')== false)){
+  //     setinvaild_email(true)
+  //   }else{
+  //     return
+  //   }
+    
+  // } 
+  // else{
+    setinvaild_email(false)
+    // if (selectedCountry == null) {
+    //   setSelectedCountry("")
+      
+    // } if (selectedState == null) {
+    //   setSelectedState("")
+      
+    // } if (selectedCity == null) {
+    //   setSelectedCity("")
+    // }
     for (let i = 0; i < document.querySelector("#input_files").files.length; i++) {
       const selectedFile = document.querySelector("#input_files").files[i];
   
       const formData = new FormData()
-      formData.append("photo",selectedFile)
+      formData.append("image",selectedFile)
   
       console.log('selectedimgs',selectedFile.length);
   
+
+      fetch('http://13.234.81.186:5001/api/predict',{
+        method: 'POST',
+        body: formData,
+        enctype:"multipart/form-data"
+        // If you add this, upload won't work
+        // headers: {
+        //   'Content-Type': 'multipart/form-data',
+        // }
+      }).then((res)=> res.json())
+      .then((data)=>{
+        console.log("data",data);
+        predect_arr.push(data)
+        
       fetch(`${import.meta.env.VITE_BACKEND_API}/uploadImg`,{
           method:"POST",
           body: formData
@@ -89,7 +148,9 @@ const submit = ()=>{
           arr.push(data.path)
          
       })
+      })
     }
+    setloader(true)
     setTimeout(() => {
       console.log("arr12312",arr);
       fetch(`${import.meta.env.VITE_BACKEND_API}/patient_details`,{
@@ -100,9 +161,9 @@ const submit = ()=>{
           last_name:last_nom,
           email:email,
           phone:phone,
-          country:country,
-          state:state,
-          city:city,
+          country:selectedCountry.name,
+          state:selectedState.name,
+          city:selectedCity.name ,
           zip_code:zip_code,
           birth:birth,
           emergency:emergency,
@@ -114,26 +175,28 @@ const submit = ()=>{
           address:address,
           clinic_id:localStorage.getItem("clinic_id"),
           clinic_name: localStorage.getItem("clinic_name"),
-          imgs:arr
+          imgs:arr,
+          data:predect_arr
       })
     
     }).then((res)=>{
-        console.log('llll',res.status);
+        // console.log('llll',res.status);
         if(res.status == 200 ){
          alert("works")
+         setloader(false)
          location.reload();
         }else {
           seterr(true)
         }
         })
-    }, 1500);
+    }, 10000);
  
 
 
     
 
 
-  }
+  // }
 
 }
 
@@ -221,6 +284,9 @@ const delete_patient = ()=>{
 
   return (
     <div className='background_patient' style={{overflow:"hidden"}}>
+     {loader&&
+      <Loader/>
+     }
       <Sidebar/>
       <div className='body_itself'>
 
@@ -248,7 +314,7 @@ const delete_patient = ()=>{
               
               <div className='comp_dev'>
                   <label htmlFor="">Date of Birth</label>
-                  <input value={birth} style={{width:"100%"}} onChange={(e)=>{setbirth(e.target.value);}} className='input_comp' type="date" placeholder='Enter your Date of Birth'/>
+                  <input value={birth} style={{width:"100%",height:"unset"}} onChange={(e)=>{setbirth(e.target.value);}} className='input_comp' type="date" placeholder='Enter your Date of Birth'/>
                   {missing_date&&
                   <div style={{color:"#FF9494 "}}>This is a required field</div>
                   }
@@ -263,7 +329,17 @@ const delete_patient = ()=>{
 
                             <div className='columns_orgs'>
                                   <div className='column_parts'>
-                                    <Input  value={gender} onChange={(e)=>{setgender(e.target.value)}} label={"Gender"} placeholder={"Enter your Gender"}/>
+
+                                  <div className='comp_dev'>
+                                            <label for="">Gender</label> 
+            
+                                            <select className='input_comp' value={gender} onChange={(e)=>{setgender(e.target.value)}} style={{height:"fit-content"}}  id="numbering_type">
+                                                  <option value="" selected disabled hidden>Select</option>
+                                                  <option value="Male">Male</option>
+                                                  <option value="Female">Female</option>
+                                            </select>
+                                  </div>
+                                    {/* <Input  value={gender} onChange={(e)=>{setgender(e.target.value)}} label={"Gender"} placeholder={"Enter your Gender"}/> */}
                                     <Input type={"number"}  value={patient_id} onChange={(e)=>{setpatient_id(e.target.value)}} label={"Patient Id"} placeholder={"Enter your Patient Id"}/>
                                 </div>
 
@@ -284,11 +360,163 @@ const delete_patient = ()=>{
           <div style={{color:"#FF9494 "}}> please enter a vaild email </div>
       }
 </div>
+<div className='comp_dev'>
+                                  <label for="">Country</label> 
 
+                                    <Select
+                                    options={Country.getAllCountries()}
+                                    getOptionLabel={(options) => {
+                                      return options["name"];
+                                    }}
+                                    getOptionValue={(options) => {
+                                      return options["name"];
+                                    }}
+                                    value={selectedCountry}
+                                     
+                                    onChange={(item) => {
+
+                                        setSelectedCountry(item);
+
+                                    }}
+                                    label="Country"
+                                    // className="input_comp"
+                                    styles={{control: (base, state) => ({
+                                      ...base,
+                                      background: "#3A3C3E", borderRadius:  "5px" ,
+                                      color:"white",
+                                      borderColor: null,
+                                      boxShadow: null,
+                                      borderWidth: 0 ,
+                                      "&:hover": {
+                                        borderColor: null }}),
+                                        menu: base => ({
+                                          ...base,
+                                          background: "#3A3C3E",
+                                          color:"white"
+                                        }),
+                                        
+                                      }}
+                                      classNamePrefix="react_select_color"
+                                    theme={(theme) => ({
+                                      ...theme,
+                                      borderRadius: 0,
+                                    
+                                      colors: {
+                                      ...theme.colors,
+                                        text: 'white',
+                                        primary25: 'hotpink',
+                                        primary: 'black',
+                                      },
+                                    })}
+                                  />
+                                </div>
+                                    
+
+                                <div className='comp_dev'>
+                                  <label for="">State</label> 
+                                  <Select
+                                      options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
+                                      getOptionLabel={(options) => {
+                                        return options["name"];
+                                      }}
+                                      getOptionValue={(options) => {
+                                        return options["name"];
+                                      }}
+                                      value={selectedState}
+                                      onChange={(item) => {
+
+                                          setSelectedState(item);
+
+                                      }}
+                                      styles={{control: (base, state) => ({
+                                        ...base,
+                                        background: "#3A3C3E", borderRadius:  "5px" ,
+                                        color:"white",
+                                        borderColor: null,
+                                        boxShadow: null,
+                                        borderWidth: 0 ,
+                                        "&:hover": {
+                                          borderColor: null }}),
+                                          menu: base => ({
+                                            ...base,
+                                            background: "#3A3C3E",
+                                            color:"white"
+                                          }),
+                                          
+                                        }}
+                                        classNamePrefix="react_select_color"
+                                      theme={(theme) => ({
+                                        ...theme,
+                                        borderRadius: 0,
+                                      
+                                        colors: {
+                                        ...theme.colors,
+                                          text: 'white',
+                                          primary25: 'hotpink',
+                                          primary: 'black',
+                                        },
+                                      })}
+                                      />
+                                     
+                                </div>
+                                
+                                <div className='comp_dev'>
+                                  <label for="">City</label> 
+                                
+                                  <Select
+                                        options={City.getCitiesOfState(
+                                          selectedState?.countryCode,
+                                          selectedState?.isoCode
+                                        )}
+                                        // placeholder="My Label"
+                                        getOptionLabel={(options) => {
+                                          return options["name"];
+                                        }}
+                                        getOptionValue={(options) => {
+                                          return options["name"];
+                                        }}
+                                        value={selectedCity}
+                                        onChange={(item) => {
+                                          
+                                          
+                                            setSelectedCity(item);
+                                         
+                                          // setSelectedCity(item);
+                                        }}
+                                        styles={{control: (base, state) => ({
+                                          ...base,
+                                          background: "#3A3C3E", borderRadius:  "5px" ,
+                                          color:"white",
+                                          borderColor: null,
+                                          boxShadow: null,
+                                          borderWidth: 0 ,
+                                          "&:hover": {
+                                            borderColor: null }}),
+                                            menu: base => ({
+                                              ...base,
+                                              background: "#3A3C3E",
+                                              color:"white"
+                                            }),
+                                            
+                                          }}
+                                          classNamePrefix="react_select_color"
+                                        theme={(theme) => ({
+                                          ...theme,
+                                          borderRadius: 0,
+                                        
+                                          colors: {
+                                          ...theme.colors,
+                                            text: 'white',
+                                            primary25: 'hotpink',
+                                            primary: 'black',
+                                          },
+                                        })}
+                                      />
+                                </div>
   <Input value={address} onChange={(e)=>{setaddress(e.target.value)}} label={"Street Address "} placeholder={"Enter patient Street Address "}/>
-  <Input value={city} onChange={(e)=>{setcity(e.target.value)}} label={"City"} placeholder={"Enter patient City"}/>
+  {/* <Input value={city} onChange={(e)=>{setcity(e.target.value)}} label={"City"} placeholder={"Enter patient City"}/>
   <Input value={state} onChange={(e)=>{setstate(e.target.value)}} label={"State"} placeholder={"Enter patient State"}/>
-  <Input value={country} onChange={(e)=>{setcountry(e.target.value)}} label={"Country"} placeholder={"Enter patient Country"}/>
+  <Input value={country} onChange={(e)=>{setcountry(e.target.value)}} label={"Country"} placeholder={"Enter patient Country"}/> */}
   <Input value={zip_code} onChange={(e)=>{setzip_code(e.target.value)}} label={"Zip Code"} placeholder={"Enter patient Zip Code"}/>
 
                           </div>
@@ -365,7 +593,7 @@ const delete_patient = ()=>{
 
           {!search_res?
             // <button className='adding_patient_details' onClick={()=>{upload_Img()}}>Add</button>
-            <button className='adding_patient_details' onClick={()=>{submit()}}>Add</button>
+            <button className='adding_patient_details' onClick={()=>{checker()}}>Add</button>
             :
             <button className='adding_patient_details' onClick={()=>{setsearch_res(false)}}>Add new patient</button>
           }

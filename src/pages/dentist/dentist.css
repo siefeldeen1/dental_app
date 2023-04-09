@@ -231,10 +231,10 @@ table {
     font-size: 14px;
     border-top: 2px solid rgb(32, 32, 32);
     border-bottom: 1px solid rgb(41, 41, 41);
-    padding: 2px;
     display: grid;
     grid-template-columns: 15% 25% 20% 20% 20%;
-    padding: 3px 0;
+    padding: 3px 10px; 
+    width: unset !important;
   }
 
   .table_data{
@@ -244,11 +244,27 @@ table {
     padding: 2px;
     display: grid;
     grid-template-columns: 15% 25% 20% 20% 20%;
+    align-items: center;
+    padding: 9px 2px;
+    cursor: pointer;
+    transition: 0.4s;
   }
+
+.table_data:hover{
+    background: #265b6c4f ;
+}
+
+.focused_table_data{
+    background: #265a6c ;
+}
+
+.focused_tooth_mask{
+    opacity: 1 !important;
+}
 
   .table_body{
     background-color: #3f3f3f;
-    padding: 10px;
+    padding: 10px 0;
     margin-top: 10px;
     height: 57%;
     overflow: auto;
@@ -320,6 +336,7 @@ table {
     align-items: center;
     justify-content: space-between;
     margin-top: 15px;
+    margin-bottom: 10px;
 }
 
  .curclair_btn{
@@ -459,6 +476,13 @@ table {
     .slider input[type="range"]::-webkit-slider-thumb:hover {
     background: #0d94c3;
     }
+
+
+/* .teeth_masks{
+    opacity: 0.6;
+} */
+
+
 
    .hovered_part{
     position: absolute !important; 

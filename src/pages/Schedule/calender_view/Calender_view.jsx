@@ -33,7 +33,13 @@ export default class Dnd extends React.Component {
 
   componentDidMount() {
     let arr =[]
-fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint`).then((res)=>res.json())
+fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint`,{
+  method:"get",
+  headers:{
+    clinic_id:localStorage.getItem("clinic_id"),
+    clinic_name: localStorage.getItem("clinic_name")
+  }
+}).then((res)=>res.json())
 .then((data)=> {
   data.forEach(e => {
 console.log("start",e["start"]);
@@ -84,7 +90,9 @@ console.log("start",e["start"]);
         body:JSON.stringify({
           start:start,
           end:end,
-          id:updatedEvent.id
+          id:updatedEvent.id,
+          clinic_id:localStorage.getItem("clinic_id"),
+          clinic_name:localStorage.getItem("clinic_name")
         })
       }).then((res)=>res.json())
       .then((data)=>console.log(data))
@@ -111,7 +119,9 @@ console.log("start",e["start"]);
       body:JSON.stringify({
         start:start,
         end:end,
-        id:event.id
+        id:event.id,
+        clinic_id:localStorage.getItem("clinic_id"),
+        clinic_name:localStorage.getItem("clinic_name")
       })
     }).then((res)=>res.json())
     .then((data)=>console.log(data))
@@ -120,6 +130,32 @@ console.log("start",e["start"]);
       events: nextEvents
     });
   };
+
+  
+  onSelectEvent(pEvent) {
+    const r = window.confirm("Would you like to remove this event?")
+    if(r === true){
+      
+      this.setState((prevState, props) => {
+        const events = [...prevState.events]
+        const idx = events.indexOf(pEvent)
+      
+        console.log("delete",pEvent.id,pEvent.title);
+        fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint`,{
+          method:"delete",
+          headers:{
+            title:pEvent.title,
+            id:pEvent.id,
+            clinic_id:localStorage.getItem("clinic_id"),
+            clinic_name:localStorage.getItem("clinic_name")
+          }
+        }).then((res)=>res.json())
+        .then((data)=>console.log(data))
+        events.splice(idx, 1);
+        return { events };
+      });
+    }
+  }
 
   render() {
     const localizer = momentLocalizer(moment)
@@ -142,6 +178,7 @@ console.log("start",e["start"]);
           onEventDrop={this.moveEvent}
           resizable={true}
           onEventResize={this.resizeEvent}
+          onSelectEvent   = {event => this.onSelectEvent(event)}
           // defaultView={"week"}
           // defaultDate={new Date(2023, 3, 12)}
         />

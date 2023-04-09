@@ -5,3 +5,32 @@
     width: 100%;
     align-items: end;
 }
+
+/* .css-14cdt5o-control{
+background-color:#3A3C3E  !important;
+color: white;
+border: none;
+border-radius: 7px;
+}
+
+.css-1im77uy-control{
+    background-color:#3A3C3E  !important;
+    color: white;
+    border: none;
+    border-radius: 7px;
+}
+
+.css-iKh0o5-menu{
+    background-color: #3A3C3E !important;
+    color: white;
+} */
+
+.react_select_color{
+    color: white;
+}
+.react_select_color__input{
+    color: white !important;
+}
+.css-1dimb5e-singleValue{
+    color: white !important;
+}

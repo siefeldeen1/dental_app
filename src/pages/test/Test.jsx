@@ -1,8 +1,18 @@
 import React,{useState,useEffect,useContext} from 'react'
 import axios from 'axios';
 import {MainContext} from '../../../utils/MainContext'
+import { useNavigate } from 'react-router-dom';
 
 function Test() {
+
+const navigate = useNavigate()
+
+useEffect(() => {
+  
+
+  navigate("/Schedule")
+}, [])
+
 
     const{ img_api, setimg_api} = useContext(MainContext)
     

@@ -24,15 +24,15 @@ const onChange =()=>{
         <div className='header_Info'>
                 <div className='title_info'>
                     <div>Patient ID:</div>
-                    <div>-</div>
+                    <div>{props.patient_id}</div>
                   </div>
                   <div className='title_info'>
                     <div>Patient name:</div>
-                    <div>-</div>
+                    <div>{`${props.patient_name[0]} ${props.patient_name[1]}`}</div>
                   </div>
                   <div className='title_info'>
                     <div>Date of birth:</div>
-                    <div>-</div>
+                    <div>{props.birth}</div>
                   </div>
                   <div className='title_info'>
                     <div>Date of radiograph creation:</div>
