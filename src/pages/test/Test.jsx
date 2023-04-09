@@ -9,8 +9,12 @@ const navigate = useNavigate()
 
 useEffect(() => {
   
-
-  navigate("/Schedule")
+  if(localStorage.getItem("clinic_id") == null){
+    navigate("/Signup")
+  }else{
+    navigate("/Schedule")
+  }
+  
 }, [])
 
 
