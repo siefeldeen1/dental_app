@@ -1,7 +1,7 @@
 import React, { useEffect, useState,useContext } from 'react';
 import Input from '../../compounts/inputs/Input'
 import './patient.css'
-import DatePicker from 'react-date-picker';
+
 import { AiOutlineCalendar  } from 'react-icons/ai';
 import { HiOutlineXMark } from 'react-icons/hi2';
 import Sidebar from '../sidebar/side_bar.jsx'
@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Country, State, City } from "country-state-city";
 import Select from "react-select";
 import Loader from '../../compounts/loader/Loader';
-
+import image from '../../img/teeth.jpg'
 
 function Patient_details() {
 
@@ -56,6 +56,7 @@ function Patient_details() {
   const [selectedState, setSelectedState] = useState({name:""});
   const [selectedCity, setSelectedCity] = useState({name:""});
   const [loader, setloader] = useState(false)
+  const [submitter, setsubmitter] = useState(false)
 
   let arr = []
   let predect_arr = []
@@ -69,8 +70,6 @@ const checker = ()=>{
     setmissing_date(true)
   } else if(last_nom.length < 1){
     setmissing_last(true)
-  }else if(email.length >1){
-
   }else if (email.length == 0 ) {
     submit()
   } else if(email.length >1){
@@ -116,16 +115,29 @@ const submit = ()=>{
     // } if (selectedCity == null) {
     //   setSelectedCity("")
     // }
-    for (let i = 0; i < document.querySelector("#input_files").files.length; i++) {
+  //  const fileInput =  document.querySelector("#input_files")
+
+  //   const myFile = new File(['Hello World!'], 'myFile.txt', {
+  //     type: 'image',
+  //     lastModified: new Date(),
+  //   });
+  //   const dataTransfer = new DataTransfer();
+  //   dataTransfer.items.add(myFile);
+  //   fileInput.files = (fileInput.files,dataTransfer.files)
+
+     for (let i = 0; i < document.querySelector("#input_files").files.length; i++) {
       const selectedFile = document.querySelector("#input_files").files[i];
-  
+      
+      console.log("files_lenght", document.querySelector("#input_files").files);
+
       const formData = new FormData()
       formData.append("image",selectedFile)
-  
+    
       console.log('selectedimgs',selectedFile.length);
   
 
-      fetch('http://13.234.81.186:5001/api/predict',{
+      // fetch('http://13.234.81.186:5001/api/predict',{
+      fetch('https://engine.apture.ai:5001/api/predict',{
         method: 'POST',
         body: formData,
         enctype:"multipart/form-data"
@@ -144,52 +156,110 @@ const submit = ()=>{
       }).then((res) => res.json())
       .then((data)=>{
           console.log(data.path);
-  
+          console.log("numbers",i);
           arr.push(data.path)
+        //   if(i + 1 == document.querySelector("#input_files").files.length  ){
+        //     alert("done fetching")
+        //  }
+        if(i == document.querySelector("#input_files").files.length -1){
+          setTimeout(() => {
+            
          
+          fetch(`${import.meta.env.VITE_BACKEND_API}/patient_details`,{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify({
+              Name :Name,
+              last_name:last_nom,
+              email:email,
+              phone:phone,
+              country:selectedCountry.name,
+              state:selectedState.name,
+              city:selectedCity.name ,
+              zip_code:zip_code,
+              birth:birth,
+              emergency:emergency,
+              preference:preference,
+              gender:gender,
+              guardian:guardian,
+              patient_id:patient_id,
+              notes:notes,
+              address:address,
+              clinic_id:localStorage.getItem("clinic_id"),
+              clinic_name: localStorage.getItem("clinic_name"),
+              imgs:arr,
+              data:predect_arr
+          })
+        
+        }).then((res)=>{
+            // console.log('llll',res.status);
+            if(res.status == 200 ){
+             alert("works")
+             setloader(false)
+             location.reload();
+            }else {
+              seterr(true)
+            }
+            })
+          }, 10000)
+        }
       })
+      }).then((submit)=>{
+            
+
+
+
+       
+      
       })
+
+      
+
     }
     setloader(true)
-    setTimeout(() => {
+    // setTimeout(() => {
       console.log("arr12312",arr);
-      fetch(`${import.meta.env.VITE_BACKEND_API}/patient_details`,{
-        method:"POST",
-        headers:{"content-type":"application/json"},
-        body:JSON.stringify({
-          Name :Name,
-          last_name:last_nom,
-          email:email,
-          phone:phone,
-          country:selectedCountry.name,
-          state:selectedState.name,
-          city:selectedCity.name ,
-          zip_code:zip_code,
-          birth:birth,
-          emergency:emergency,
-          preference:preference,
-          gender:gender,
-          guardian:guardian,
-          patient_id:patient_id,
-          notes:notes,
-          address:address,
-          clinic_id:localStorage.getItem("clinic_id"),
-          clinic_name: localStorage.getItem("clinic_name"),
-          imgs:arr,
-          data:predect_arr
-      })
+
+
+    //   if(submitter == true){
+    //   fetch(`${import.meta.env.VITE_BACKEND_API}/patient_details`,{
+    //     method:"POST",
+    //     headers:{"content-type":"application/json"},
+    //     body:JSON.stringify({
+    //       Name :Name,
+    //       last_name:last_nom,
+    //       email:email,
+    //       phone:phone,
+    //       country:selectedCountry.name,
+    //       state:selectedState.name,
+    //       city:selectedCity.name ,
+    //       zip_code:zip_code,
+    //       birth:birth,
+    //       emergency:emergency,
+    //       preference:preference,
+    //       gender:gender,
+    //       guardian:guardian,
+    //       patient_id:patient_id,
+    //       notes:notes,
+    //       address:address,
+    //       clinic_id:localStorage.getItem("clinic_id"),
+    //       clinic_name: localStorage.getItem("clinic_name"),
+    //       imgs:arr,
+    //       data:predect_arr
+    //   })
     
-    }).then((res)=>{
-        // console.log('llll',res.status);
-        if(res.status == 200 ){
-         alert("works")
-         setloader(false)
-         location.reload();
-        }else {
-          seterr(true)
-        }
-        })
-    }, 10000);
+    // }).then((res)=>{
+    //     // console.log('llll',res.status);
+    //     if(res.status == 200 ){
+    //      alert("works")
+    //      setloader(false)
+    //      location.reload();
+    //     }else {
+    //       seterr(true)
+    //     }
+    //     })
+    //   }
+    // }, 10000);
  
 
 

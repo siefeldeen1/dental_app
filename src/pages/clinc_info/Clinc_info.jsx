@@ -59,9 +59,7 @@ const checker = ()=> {
   }else if ((email_off.includes('@')== false)||(email_off.includes('.')== false)) {
     setinvaild_email(true)
   }
-   else if(email_cl.length >1){
-
-  }else if (email_cl.length == 0 ) {
+  else if (email_cl.length == 0 ) {
     submit()
   } else if(email_cl.length >1){
     if((email_cl.includes('@')== false)||(email_cl.includes('.')== false)){
@@ -242,7 +240,7 @@ const checker = ()=> {
                                     
 
                                 <div className='comp_dev'>
-                                  <label for="">City</label> 
+                                  <label for="">State</label> 
                                       <Select
                                       options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
                                       getOptionLabel={(options) => {
@@ -287,7 +285,7 @@ const checker = ()=> {
                                 </div>
                                 
                                 <div className='comp_dev'>
-                                  <label for="">State</label> 
+                                  <label for="">City</label> 
                                         <Select
                                         options={City.getCitiesOfState(
                                           selectedState?.countryCode,
