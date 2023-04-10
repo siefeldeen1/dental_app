@@ -25,7 +25,7 @@ import {
         MeasurementLayer,
         calculateDistance,
         calculateArea
-      } from "./react-measurements";
+      } from "react-measurements";
 
 
 // tf.ENV.set('WEBGL_PACK', false)
