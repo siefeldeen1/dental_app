@@ -25,7 +25,7 @@ function Tool_bar(props) {
 
 
     const active_icon =(e)=>{
-        e.target.classList.toggle("active_icon_bar")
+        e.currentTarget.classList.toggle("active_icon_bar")
       
     }
 
