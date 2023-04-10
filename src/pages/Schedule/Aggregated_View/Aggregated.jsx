@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import './Aggregated.css'
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoPeople } from 'react-icons/io5';
@@ -14,6 +14,25 @@ import { GiToothbrush } from 'react-icons/gi';
 
 
 function Aggregated() {
+
+  const [patients_numb, setpatients_numb] = useState()
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_BACKEND_API}/render_patients`,{
+      method:"get",
+      headers:{
+        clinic_id:localStorage.getItem("clinic_id"),
+        clinic_name: localStorage.getItem("clinic_name")
+      }
+    }).then((res)=>res.json())
+    .then((data)=>{
+      console.log("render_pat",data.length);
+      setpatients_numb(data.length)
+
+      // setpatients(data)
+    })
+}, [])
+
   return (
     <div style={{width:"98%",margin:"0 auto"}}>
         <div className='header_bar_agg'>
@@ -28,24 +47,24 @@ function Aggregated() {
         <div className='long_dev_agg' >
             <div className='wid_cont_agg' style={{width:"13%"}}>
                   <div className='info_agg_title'><IoPeople/>Patients</div>
-                  <div className='info_agg_value'>7</div>
+                  <div className='info_agg_value'>{patients_numb}</div>
             </div>
 
             <div className='wid_cont_agg' style={{width:"17%"}}>
                   <div className='info_agg_title'><FaXRay/>Needed x-Rays</div>
-                  <div className='info_agg_value'>6</div>
+                  <div className='info_agg_value'>0</div>
             </div>
 
             <div className='big_wid_agg_cont'>
 
               <div className='small_wid_agg' style={{display:"flex",alignItems:"center"}}>
                 <div className='small_wid_title' style={{gap:"10px",display:"flex"}}><FaTooth/>Opportunity</div>
-                <div className='same_wid_value'>10</div>
+                <div className='same_wid_value'>0</div>
               </div>
 
               <div className='small_wid_agg'>
                 <div className='small_wid_title'>Perio <br/> Maintenance</div>
-                <div className='same_wid_value'>1</div>
+                <div className='same_wid_value'>0</div>
               </div>
 
               <div className='small_wid_agg'>
@@ -55,26 +74,26 @@ function Aggregated() {
 
               <div className='small_wid_agg'>
                 <div className='small_wid_title'>Endo</div>
-                <div className='same_wid_value'>1</div>
+                <div className='same_wid_value'>0</div>
               </div>
 
               <div className='small_wid_agg'>
                 <div className='small_wid_title'>Impact</div>
-                <div className='same_wid_value'>1</div>
+                <div className='same_wid_value'>0</div>
               </div>
 
               <div className='small_wid_agg'>
                 <div className='small_wid_title'>Restoration<br/>Replacement</div>
-                <div className='same_wid_value'>1</div>
+                <div className='same_wid_value'>0</div>
               </div>
 
               <div className='small_wid_agg'>
                 <div className='small_wid_title'>Restoration</div>
-                <div className='same_wid_value'>5</div>
+                <div className='same_wid_value'>0</div>
               </div>
               <div className='small_wid_agg'>
                 <div className='small_wid_title'>Impaction</div>
-                <div className='same_wid_value'>1</div>
+                <div className='same_wid_value'>0</div>
               </div>
 
             </div>
@@ -90,7 +109,7 @@ function Aggregated() {
             <div className='wid_itself'>
               <div className='wid_column_group'>
                    <div className='title_sec_wid'>Due For Bitewings</div>
-                   <div className='value_sec_wid'>37</div>
+                   <div className='value_sec_wid'>0</div>
               </div>  
                   
                   <div className='wid_column_group2'>
@@ -102,7 +121,7 @@ function Aggregated() {
             <div className='wid_itself'>
               <div className='wid_column_group'>
                    <div className='title_sec_wid'>Due For Perio Chart</div>
-                   <div className='value_sec_wid'>38</div>
+                   <div className='value_sec_wid'>0</div>
               </div>  
                   
                   <div className='wid_column_group2'>
@@ -114,7 +133,7 @@ function Aggregated() {
             <div className='wid_itself' style={{borderColor:"#B2ABCF"}}>
               <div className='wid_column_group'>
                    <div className='title_sec_wid'>Potential Periodontal <br/> Condition</div>
-                   <div className='value_sec_wid'>5</div>
+                   <div className='value_sec_wid'>0</div>
               </div>  
                   
                   <div className='wid_column_group2'>
@@ -126,7 +145,7 @@ function Aggregated() {
             <div className='wid_itself' style={{borderColor:"#B2ABCF"}}>
               <div className='wid_column_group'>
                    <div className='title_sec_wid'>Potential Caries</div>
-                   <div className='value_sec_wid'>45</div>
+                   <div className='value_sec_wid'>0</div>
               </div>  
                   
                   <div className='wid_column_group2'>
