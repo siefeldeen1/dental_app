@@ -111,12 +111,12 @@ function sigmup() {
     <div style={{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh",position:"relative"}}>
       {join_org &&
        <div className='pop_up_background' >
-            <div className='appoint_body' style={{height:"fit-contant"}}>
+            <div className='appoint_body' style={{height:"fit-content",justifyContent:"unset",alignItems:"center"}}>
                   <h2>Sign up</h2>
                   <p>Create a new Organiztion or Join already existing one? </p>
-                  <div style={{display:"flex",width:"100%",gap:"10px"}}>
-                        <Button text={"Create new Organiztion"} onclick={()=>{setjoin_org(false)}}/>
-                        <Button text={"Join Organiztion"} onclick={()=>{navigate("/join_org")}}/>
+                  <div style={{display:"flex",width:"100%",gap:"10px",justifyContent:"space-between"}}>
+                        <Button text={"Create new Organiztion"} style={{width:"100%",background:"transparent",border:"grey 1px solid",color:"white"}} onclick={()=>{setjoin_org(false)}}/>
+                        <Button text={"Join Organiztion"} style={{width:"100%"}}  onclick={()=>{navigate("/join_org")}}/>
                   </div>
             </div>
        </div>
