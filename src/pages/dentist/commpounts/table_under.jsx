@@ -70,7 +70,13 @@ function table_under({table_under,patient_name}) {
             .then((data)=>{
                 // console.log("info_Data",data);
                 setaddedtooth_arr(data)
+          
             })
+
+            // if(addedtooth_arr.length == 0){
+            //     location.reload()
+            // }
+
     }, [])
     
      let commenttooth_arr_helper = []
