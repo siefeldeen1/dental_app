@@ -192,7 +192,7 @@ useEffect(() => {
  
 //   ctx.fillText('Hello world', 50, 90);
 
-return()=>{  
+// return()=>{  
         fetch(`https://dentail.onrender.com/render_imgs`,{
         // fetch(`${import.meta.env.VITE_BACKEND_API}/render_imgs`,{
         method:"get",
@@ -244,7 +244,8 @@ return()=>{
     
 
         // settable_under(Object.values(JSON.parse(data[0].data)[img_no].Output))
-      })}
+      })
+// }
 
 }, [])
 
