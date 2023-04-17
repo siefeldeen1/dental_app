@@ -192,7 +192,9 @@ useEffect(() => {
  
 //   ctx.fillText('Hello world', 50, 90);
 
-return()=>{  fetch(`${import.meta.env.VITE_BACKEND_API}/render_imgs`,{
+return()=>{  
+        fetch(`https://dentail.onrender.com/render_imgs`,{
+        // fetch(`${import.meta.env.VITE_BACKEND_API}/render_imgs`,{
         method:"get",
         headers:{
           clinic_id:localStorage.getItem("clinic_id"),
