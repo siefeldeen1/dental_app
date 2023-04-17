@@ -12,10 +12,12 @@ import Test from './pages/test/Test';
 import Home_patient_detials from './pages/patient_details/home_patient/Home_patient_detials';
 import Clinc_info from './pages/clinc_info/Clinc_info';
 import View_imgs from './pages/Schedule/view_imgs/View_imgs';
+import Join_org from './pages/signup/join_org/Join_org';
 
 export default function Router() {
   return useRoutes([
     {path: '/Signup', element:  <Signup/> },
+    {path: '/join_org', element:  <Join_org/> },
     {path: '/Login', element:  <Login/> },
     {path: '/main_page', element:  <Main_page/> },
     {path: '/questionier', element:  <Questions/> },

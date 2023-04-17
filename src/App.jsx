@@ -15,6 +15,7 @@ function App() {
   const [update_phone, setupdate_phone] = useState('')
   const [update_birth, setupdate_birth] = useState("")
   const [saver, setsaver] = useState()
+  const [data_type_id, setdata_type_id] = useState()
   const [pop, setpop] = useState(false)
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
@@ -23,7 +24,7 @@ function App() {
   const [islogged, setislogged] = useState()
   const [patient_id, setpatient_id] = useState()
   const [table_under, settable_under] = useState()
-
+  const [tooth_numbering, settooth_numbering] = useState()
 
   return (
     <>
@@ -34,6 +35,7 @@ function App() {
       update_phone, setupdate_phone,
       update_birth, setupdate_birth,
       saver, setsaver,
+      data_type_id, setdata_type_id,
       pop, setpop,
       email, setemail,
       password, setpassword,
@@ -41,6 +43,7 @@ function App() {
       patient_name, setpatient_name,
       patient_id, setpatient_id,
       table_under, settable_under,
+      tooth_numbering, settooth_numbering,
     }}>
     <Router/>
     </MainContext.Provider>

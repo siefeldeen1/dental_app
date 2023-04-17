@@ -9,6 +9,7 @@ import './signup.css'
 import ReactDOM from 'react-dom';
 import OAuth2Login from 'react-simple-oauth2-login';
 import {MainContext} from '../../../utils/MainContext'
+import Button from '../../compounts/button/Button';
 
 
 function sigmup() {
@@ -22,7 +23,7 @@ function sigmup() {
       const [err, seterr] = useState(false)
       const{ email, setemail} = useContext(MainContext)
       const{ password, setpassword} = useContext(MainContext)
-
+      const [join_org, setjoin_org] = useState(true)
 
 
       const showpass1 =()=>{
@@ -107,7 +108,19 @@ function sigmup() {
      }
 
   return (
-    <div style={{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh"}}>
+    <div style={{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh",position:"relative"}}>
+      {join_org &&
+       <div className='pop_up_background' >
+            <div className='appoint_body' style={{height:"fit-contant"}}>
+                  <h2>Sign up</h2>
+                  <p>Create a new Organiztion or Join already existing one? </p>
+                  <div style={{display:"flex",width:"100%",gap:"10px"}}>
+                        <Button text={"Create new Organiztion"} onclick={()=>{setjoin_org(false)}}/>
+                        <Button text={"Join Organiztion"} onclick={()=>{navigate("/join_org")}}/>
+                  </div>
+            </div>
+       </div>
+      }
         <div className='body_forsignup'>
               <h2 style={{color:"white"}}>Sign up</h2>
 

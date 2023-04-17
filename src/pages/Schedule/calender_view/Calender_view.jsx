@@ -11,6 +11,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import Button from '../../../compounts/button/Button';
 import Appointment_popup from '../../../compounts/popups/Appointment_popup';
+import Edit_comp from './edit_comp/Edit_comp';
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 
@@ -21,7 +22,9 @@ export default class Dnd extends React.Component {
     super(props);
     this.state = {
       events: [],
-      isloaded:false
+      isloaded:false,
+      edit:false,
+      data:{},
     };
     
     this.moveEvent = this.moveEvent.bind(this);
@@ -133,16 +136,16 @@ console.log("start",e["start"]);
 
   
   onSelectEvent(pEvent) {
-    const r = window.confirm("Would you like to remove this event?")
-    if(r === true){
+    // const r = window.confirm("Would you like to remove this event?")
+    // if(r === true){
       
       this.setState((prevState, props) => {
         const events = [...prevState.events]
         const idx = events.indexOf(pEvent)
       
         console.log("delete",pEvent.id,pEvent.title);
-        fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint`,{
-          method:"delete",
+        fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint_info`,{
+          method:"get",
           headers:{
             title:pEvent.title,
             id:pEvent.id,
@@ -150,11 +153,15 @@ console.log("start",e["start"]);
             clinic_name:localStorage.getItem("clinic_name")
           }
         }).then((res)=>res.json())
-        .then((data)=>console.log(data))
-        events.splice(idx, 1);
-        return { events };
+        .then((data)=>{
+          this.setState({edit:true})
+          console.log("data_ladsssssa",data)
+          this.setState({data:data})
+        })
+        // events.splice(idx, 1);
+        // return { events };
       });
-    }
+    // }
   }
 
   render() {
@@ -162,6 +169,9 @@ console.log("start",e["start"]);
     console.log("event2",this.state.events);
     return (
       <>
+      {this.state.edit&&
+          <Edit_comp data={this.state.data} onclick2={()=>{ this.setState({edit:false})}} onclick={()=>{ this.setState({edit:false});location.reload() }} />
+      }
        {this.state.isloaded&&
                   <Appointment_popup onclick={()=>{ this.setState({isloaded:false}) }} />
                   }

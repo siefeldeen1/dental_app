@@ -37,12 +37,14 @@ function denstist() {
 const [fullscreen_pop, setfullscreen_pop] = useState(false)        
 const [magnifier, setmagnifier] = useState(1)
 const [data_arr, setdata_arr] = useState()
-const [tooth_arr, settooth_arr] = useState()
+const [tooth_arr, settooth_arr] = useState([])
 
 const{ img_api, setimg_api} = useContext(MainContext)
 const{ pop, setpop} = useContext(MainContext)
 const{ saver, setsaver} = useContext(MainContext)
+const{data_type_id, setdata_type_id} = useContext(MainContext)
 const{ table_under, settable_under} = useContext(MainContext)
+const{ tooth_numbering, settooth_numbering} = useContext(MainContext)
 
 const [numbering, setnumbering] = useState([])
 
@@ -70,26 +72,10 @@ useEffect(() => {
              
         
        
+     
       
-        fetch(`${import.meta.env.VITE_BACKEND_API}/render_imgs`,{
-                method:"get",
-                headers:{
-                  clinic_id:localStorage.getItem("clinic_id"),
-                  clinic_name: localStorage.getItem("clinic_name"),
-                  patient_id:patient_id
-                }
-              }).then((res)=> res.json())
-              .then((data)=>{
-                // console.log("img_data",data[0]);
-                // console.log("img_data",Object.values(JSON.parse(data[0].data).reverse()));
-                setpatient_name([data[0].name,data[0].last_name])
-                setpatient_id(patient_id)
-                setbirth(data[0].birth_date)
-                setpatient_img(JSON.parse(data[0].imgs)[img_no])
-                settooth_arr(Object.values(JSON.parse(data[0].data)[img_no].Output))
-                settable_under(Object.values(JSON.parse(data[0].data)[img_no].Output))
-                // settable_under(Object.values(JSON.parse(data[0].data)[img_no].Output))
-              })
+
+
         //       console.log("table_under",tooth_arr);
         if(localStorage.getItem("clinic_id") == null){
                 navigate("/Signup")
@@ -100,10 +86,13 @@ useEffect(() => {
          const local_val = localStorage.getItem("counting")
         if(local_val == "FDI"){
                 setnumbering(fdi)
+                settooth_numbering(fdi)
         }else if (local_val == "Palmer"){
                 setnumbering(palmer)
+                settooth_numbering(palmer)
         }else if (local_val == "Universal"){
                 setnumbering(uni)
+                settooth_numbering(uni)
         }
         //     const options = {
         //       method: 'POST',
@@ -203,9 +192,80 @@ useEffect(() => {
  
 //   ctx.fillText('Hello world', 50, 90);
 
+return()=>{  fetch(`${import.meta.env.VITE_BACKEND_API}/render_imgs`,{
+        method:"get",
+        headers:{
+          clinic_id:localStorage.getItem("clinic_id"),
+          clinic_name: localStorage.getItem("clinic_name"),
+          patient_id:patient_id
+        }
+      }).then((res)=> res.json())
+      .then((data)=>{
+        // console.log("img_data",data[0]);
+        //  console.log("img_data",Object.values(JSON.parse(data[0].data)[img_no].Output));
+        setpatient_name([data[0].name,data[0].last_name])
+        setpatient_id(patient_id)
+        setbirth(data[0].birth_date)
+        setpatient_img(JSON.parse(data[0].imgs)[img_no])
+        settooth_arr(Object.values(JSON.parse(data[0].data)[img_no].Output))
+        settable_under(Object.values(JSON.parse(data[0].data)[img_no].Output))
 
+      
+                Object.values(JSON.parse(data[0].data)[img_no].Output).forEach(e => {
+                     
+                     
+                        fetch(`${import.meta.env.VITE_BACKEND_API}/teeth_info_first`,{
+                                method: 'POST',
+                                headers:{"content-type":"application/json"},
+                                body:JSON.stringify({
+                                name:e[0],
+                                teeth_no:'12',
+                                // parameter:parameters,
+                                // surface:surface,
+                                // stage:stage,
+                                type:"ai",
+                                patient_name:data[0].name,
+                                patient_id:patient_id,
+                                clinic_id:localStorage.getItem("clinic_id"),
+                                img_no:img_no,
+                                length:Object.values(JSON.parse(data[0].data)[img_no].Output).length,
+                                // date:date,
+                                })
+                            }).then((res)=>res.json())
+                            .then((data)=>{
+                                // console.log(data);
+                                // location.reload()
+                            })
+                        
+                });
+       
+    
+
+        // settable_under(Object.values(JSON.parse(data[0].data)[img_no].Output))
+      })}
 
 }, [])
+
+
+const delete_findings = ()=>{
+        const pathname = window.location.pathname
+        const patient_id = pathname.split("_")[0].split("/")[1]
+        const img_no = pathname.split("_")[1].split(":")[1]
+
+        fetch(`${import.meta.env.VITE_BACKEND_API}/teeth_info`,{
+                method: 'DELETE',
+                headers:{
+                    patient_id:patient_id,
+                    clinic_id:localStorage.getItem("clinic_id"),
+                    img_no:img_no,
+                    tooth_id:data_type_id,
+                },
+            }).then((res)=>res.json())
+            .then((data)=>{
+                // console.log("info_Data",data);
+                // settooth_arr(data)
+            })
+}
 
 
 const numb_changer = ()=>{
@@ -213,12 +273,15 @@ const numb_changer = ()=>{
         const palmer = [8,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8,8,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8]
         const uni = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17]
          const local_val = localStorage.getItem("counting")
-        if(local_val == "FDI"){
+         if(local_val == "FDI"){
                 setnumbering(fdi)
+                settooth_numbering(fdi)
         }else if (local_val == "Palmer"){
                 setnumbering(palmer)
+                settooth_numbering(palmer)
         }else if (local_val == "Universal"){
                 setnumbering(uni)
+                settooth_numbering(uni)
         }
 }
 
@@ -248,25 +311,6 @@ const upscale = ()=>{
                 setmagnifier(1)
         }
 
-        // const upscaler = new Upscaler();
-        // upscaler.upscale.dispose(`${import.meta.env.VITE_BACKEND_API}/${patient_img}`).then(upscaledSrc => {
-        //   // base64 representation of image src
-        //   console.log('upscale',upscaledSrc);
-          
-        //   setupscaler(upscaledSrc)
-         
-        // }).then((res)=>{
-        //         // upscale.dispose().then(() => {
-        //         //         console.log('I am all cleaned up')
-        //         //       })
-        // })
-
-        // const selectedFile = `${import.meta.env.VITE_BACKEND_API}/${patient_img}`
-  
-        // const formData = new FormData()
-        // formData.append("image",selectedFile)
-    
-        // console.log('selectedimgs',selectedFile);
         
         fetch(`${import.meta.env.VITE_BACKEND_API}/imgqulity`,{
                 method: 'POST',
@@ -324,12 +368,6 @@ const maginfy =()=>{
 }
 
 
-
-
-
-
-
-
   return (
     <div style={{display:"flex",overflowY:"hidden",height:"100vh"}}>  
     {fullscreen_pop&&
@@ -344,7 +382,7 @@ const maginfy =()=>{
                                 <div>are you sure you want to remove this ?</div>
                               <div className='lower_part_delete_t'>
                                     <Button style={{width:"100%",background:"transparent",border:"grey 1px solid",color:"white"}} text={"Cancel"} onclick={()=>(setpop(false))}/>    
-                                    <Button style={{width:"100%",background:"#B33A3A ",color:"white"}} onclick={()=>{saver.remove();setpop(false)}} text={"Delete"}/>    
+                                    <Button style={{width:"100%",background:"#B33A3A ",color:"white"}} onclick={()=>{saver.remove();delete_findings();setpop(false)}} text={"Delete"}/>    
                               </div>      
                     </div>
                 </div>
@@ -845,7 +883,7 @@ const maginfy =()=>{
                                 </div>
                                  
                                  <div style={{height:"100%"}}>
-                                        <Table table_under={tooth_arr}/>
+                                        <Table table_under={tooth_arr}  patient_name={patient_name} />
                                  </div>
                         </div>
                 </div>

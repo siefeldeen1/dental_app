@@ -6,4 +6,9 @@
     border-radius: 10px;
     padding: 10px;
     cursor: pointer;
+    transition: 0.4s;
+}
+
+.button_type1:hover{
+    opacity: 0.6;
 }

@@ -10,6 +10,8 @@
     height: 58%;
     padding: 20px;
     position: relative;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .inputs_continer{

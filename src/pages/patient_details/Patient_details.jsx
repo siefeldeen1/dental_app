@@ -156,7 +156,7 @@ const submit = ()=>{
       }).then((res) => res.json())
       .then((data)=>{
           console.log(data.path);
-          console.log("numbers",i);
+          // console.log("numbers",i);
           arr.push(data.path)
         //   if(i + 1 == document.querySelector("#input_files").files.length  ){
         //     alert("done fetching")

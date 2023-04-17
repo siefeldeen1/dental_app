@@ -1,0 +1,7 @@
+.lower_part_update{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    gap: 15px;
+}

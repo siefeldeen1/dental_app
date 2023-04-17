@@ -320,41 +320,6 @@ table {
     opacity: 0.6;
  }
 
- .table_data_organizer{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
- }
-.butn_group1{
-    display: flex;
-     align-items: center;
-     gap: 10px;
-}
-
-.btn_cont_table{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 15px;
-    margin-bottom: 10px;
-}
-
- .curclair_btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-    border: 1px solid #4BB543;
-    padding: 7px 8px;
-    border-radius: 50%;
-    color: white;
-    cursor: pointer;
-    transition: 0.4s;
- }
-
- .curclair_btn:hover{
-    opacity: 0.6
- }
 
  .non_border_btn{
     color: white;
@@ -369,22 +334,7 @@ table {
     opacity: 0.6;
  }
 
- .curclair_btn2{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-    border: 1px solid #4BB543;
-    padding: 6px 11px;
-    border-radius: 20px;
-    color: white;
-    cursor: pointer;
-    transition: 0.4s;
- }
-
- .curclair_btn2:hover{
-    opacity: 0.6
- }
+ 
 
  .curclair_btn3{
     display: flex;
@@ -549,18 +499,27 @@ table {
     }
 
 
-    .comment_body{
-        color: white;
+
+
+  
+
+    .selects_cont_class{
         display: flex;
         flex-direction: column;
-        align-items: center;
+        width: 100%;
         gap: 10px;
-        background-color: rgb(26, 25, 25);
-        /* align-items: center; */
-        justify-content: space-evenly;
-        width: 60%;
-        height: 30%;
-        padding: 20px;
-        position: absolute;
-        top: 10%;
+    }
+
+    .select_class_table_under{
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid white;
+        outline: none;
+        color: white;
+        padding:  5px;
+    }
+
+    .select_class_table_under > option {
+       color: black;
     }
