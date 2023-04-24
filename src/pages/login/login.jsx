@@ -63,13 +63,21 @@ function login() {
                             password:password.value
                       })
                 
-                    }).then((res)=> res.json())
-                    .then((data)=>{
-                        localStorage.setItem("clinic_id",data.clinic_id)
-                        localStorage.setItem("clinic_name",data.clinic_name)
-                    }).then((redirect)=>{
-                              navigate('/')
-                    })
+                    }).then((res)=>{ 
+                        if(res.status == 200){
+                              res.json()
+                              .then((data)=>{
+                                  console.log("datas",data);
+                                  localStorage.setItem("clinic_id",data.clinic_id)
+                                  localStorage.setItem("clinic_name",data.clinic_name)
+                                  localStorage.setItem("token",data.accessToken)
+                              }).then((redirect)=>{
+                                         navigate('/')
+                              })
+                        }else{
+                              alert("email or password is incorrect")
+                        }
+                  })
             }else if ((email.value.includes('@')== false)||(email.value.includes('.')== false)){
                   setvaild_mail(true)
                 

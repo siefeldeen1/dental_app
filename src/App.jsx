@@ -19,12 +19,15 @@ function App() {
   const [pop, setpop] = useState(false)
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
+  const [first_name, setfirst_name] = useState()
+  const [last_name, setlast_name] = useState()
   const [view_Imgs, setview_Imgs] = useState([])
   const [patient_name, setpatient_name] = useState('')
   const [islogged, setislogged] = useState()
   const [patient_id, setpatient_id] = useState()
   const [table_under, settable_under] = useState()
   const [tooth_numbering, settooth_numbering] = useState()
+  const [added_date, setadded_date] = useState()
 
   return (
     <>
@@ -39,11 +42,14 @@ function App() {
       pop, setpop,
       email, setemail,
       password, setpassword,
+      first_name, setfirst_name,
+      last_name, setlast_name,
       view_Imgs, setview_Imgs,
       patient_name, setpatient_name,
       patient_id, setpatient_id,
       table_under, settable_under,
       tooth_numbering, settooth_numbering,
+      added_date, setadded_date,
     }}>
     <Router/>
     </MainContext.Provider>

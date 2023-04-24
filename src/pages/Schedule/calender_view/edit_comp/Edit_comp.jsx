@@ -14,9 +14,10 @@ function Edit_comp({style,onclick,data,onclick2}) {
 
     const [aresure, setaresure] = useState(false)
 
-    console.log("appointment_data",data[0].id);
 
 useEffect(() => {
+    console.log("appointment_data",data[0].start);
+
     setstart_date(data[0].start)
     setend_date(data[0].end)
     setapp_name(data[0].title)
@@ -31,8 +32,8 @@ const update = ()=>{
         method:"PUT",
         headers:{"content-type":"application/json"},
         body:JSON.stringify({
-          start:start_date,
-          end:end_date,
+        //   start:start_date,
+        //   end:end_date,
           id:data[0].id,
           title:app_name,
           descr:descr,
@@ -81,18 +82,18 @@ const delete_patient = ()=>{
                             <input className='input_date_time' style={{padding:"7px"}} placeholder='Please enter the appointment name' value={app_name} onChange={(e)=>{setapp_name(e.target.value)}} type="text" />
                 </div>
 
-                <div className='inputs_continer'>
+                {/* <div className='inputs_continer'>
 
                         <div className='date_dev'>
                             <label htmlFor="">Start date</label>
-                            <input className='input_date_time' value={start_date} onChange={(e)=>{setstart_date(e.target.value)}} type="datetime-local" />
+                            <input className='input_date_time' value={start_date?.split(".")[0]} onClick={()=>{console.log("start_date",start_date);}} onChange={(e)=>{setstart_date(e.target.value);console.log("start_date",e.target.value);}} type="datetime-local" />
                         </div>
 
                         <div className='date_dev'>
                             <label htmlFor="">end date</label>
-                            <input className='input_date_time' value={end_date} onChange={(e)=>{setend_date(e.target.value)}} type="datetime-local" />
+                            <input className='input_date_time' value={end_date?.split(".")[0]} onChange={(e)=>{setend_date(e.target.value)}} type="datetime-local" />
                         </div>
-                </div>
+                </div> */}
              
                 <div className='date_dev'>
                             <label htmlFor="">Appointment description</label>

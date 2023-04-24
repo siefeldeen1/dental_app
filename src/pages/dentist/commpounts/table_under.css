@@ -154,3 +154,11 @@
    gap: 10px;
    margin-top: 10px;
 }
+
+.sub_comment_date_class{
+   width: 100%;
+   display: flex;
+   justify-content: end;
+   font-size: 14px;
+   color: grey;
+}

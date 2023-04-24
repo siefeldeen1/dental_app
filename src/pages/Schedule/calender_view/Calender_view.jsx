@@ -59,6 +59,8 @@ console.log("start",e["start"]);
       title: e["title"],
       start: new Date(e["start"]),
       end: new Date(e["end"]),
+      // start: new Date(e["start"]),
+      // end: new Date(e["end"]),
       desc: e["descr"]
     })
    
@@ -76,64 +78,72 @@ console.log("start",e["start"]);
 
  
   moveEvent({ event, start, end }) {
+    const r = window.confirm("Would you like to save changes?")
+    if(r === true){
+      const { events } = this.state;
     
-    const { events } = this.state;
-    
 
-    const idx = events.indexOf(event);
-    const updatedEvent = { ...event, start, end };
+      const idx = events.indexOf(event);
+      const updatedEvent = { ...event, start, end };
+      
+      const nextEvents = [...events];
+      nextEvents.splice(idx, 1, updatedEvent);
+  
+        // console.log("start-end",updatedEvent.id);
+        fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint`,{
+          method:"PUT",
+          headers:{"content-type":"application/json"},
+          body:JSON.stringify({
+            start:start,
+            end:end,
+            id:updatedEvent.id,
+            clinic_id:localStorage.getItem("clinic_id"),
+            clinic_name:localStorage.getItem("clinic_name")
+          })
+        }).then((res)=>res.json())
+        .then((data)=>console.log(data))
+  
+      this.setState({
+        events: nextEvents
+      });
+    }
 
-    const nextEvents = [...events];
-    nextEvents.splice(idx, 1, updatedEvent);
+  }
 
-      // console.log("start-end",updatedEvent.id);
+  resizeEvent = ({ event, start, end }) => {
+    setTimeout(() => {
+      const r = window.confirm("Would you like to save changes?")
+      if(r === true){
+      const { events } = this.state;
+     
+      const nextEvents = events.map(existingEvent => {
+        return existingEvent.id === event.id
+          ? { ...existingEvent, start, end }
+          : existingEvent;
+      });
+  
+        // console.log("nextEvents",event.id,start,end);
+  
       fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint`,{
         method:"PUT",
         headers:{"content-type":"application/json"},
         body:JSON.stringify({
           start:start,
           end:end,
-          id:updatedEvent.id,
+          id:event.id,
           clinic_id:localStorage.getItem("clinic_id"),
           clinic_name:localStorage.getItem("clinic_name")
         })
       }).then((res)=>res.json())
       .then((data)=>console.log(data))
-
-    this.setState({
-      events: nextEvents
-    });
-  }
-
-  resizeEvent = ({ event, start, end }) => {
-    const { events } = this.state;
+  
+      this.setState({
+        events: nextEvents
+      });
+     };
+    }, 0);
    
-    const nextEvents = events.map(existingEvent => {
-      return existingEvent.id === event.id
-        ? { ...existingEvent, start, end }
-        : existingEvent;
-    });
-
-      console.log("nextEvents",event.id,start,end);
-
-    fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint`,{
-      method:"PUT",
-      headers:{"content-type":"application/json"},
-      body:JSON.stringify({
-        start:start,
-        end:end,
-        id:event.id,
-        clinic_id:localStorage.getItem("clinic_id"),
-        clinic_name:localStorage.getItem("clinic_name")
-      })
-    }).then((res)=>res.json())
-    .then((data)=>console.log(data))
-
-    this.setState({
-      events: nextEvents
-    });
-  };
-
+  }
   
   onSelectEvent(pEvent) {
     // const r = window.confirm("Would you like to remove this event?")
@@ -143,7 +153,7 @@ console.log("start",e["start"]);
         const events = [...prevState.events]
         const idx = events.indexOf(pEvent)
       
-        console.log("delete",pEvent.id,pEvent.title);
+        // console.log("delete",pEvent.id,pEvent.title);
         fetch(`${import.meta.env.VITE_BACKEND_API}/dates_appoint_info`,{
           method:"get",
           headers:{

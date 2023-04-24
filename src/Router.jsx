@@ -13,6 +13,7 @@ import Home_patient_detials from './pages/patient_details/home_patient/Home_pati
 import Clinc_info from './pages/clinc_info/Clinc_info';
 import View_imgs from './pages/Schedule/view_imgs/View_imgs';
 import Join_org from './pages/signup/join_org/Join_org';
+import Resto_dentist from './pages/resto_assist/Resto_dentist';
 
 export default function Router() {
   return useRoutes([
@@ -30,6 +31,8 @@ export default function Router() {
     {path: '/test', element:  <Test/> },
     {path: '/Clinc_info', element:  <Clinc_info/> },
     {path: '/view_imges', element:  <View_imgs/> },
+    {path: '/resto_assist', element:  <Resto_dentist/> },
+   
     // {path: '/annotator', element:  <Denstist/> },
     ])
 }

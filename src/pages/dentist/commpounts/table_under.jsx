@@ -50,6 +50,7 @@ function table_under({table_under,patient_name}) {
     const [addedtooth_arr, setaddedtooth_arr] = useState()
     const [add_subcomment, setadd_subcomment] = useState(true)
     const [sub_comment_st, setsub_comment_st] = useState()
+    const [sub_comments_arr, setsub_comments_arr] = useState()
 
     useEffect(() => {
              settempData(table_under)
@@ -262,9 +263,26 @@ const commnet = ()=>{
                 setcomment_pop(true)
 
              })
+
+
+             fetch(`${import.meta.env.VITE_BACKEND_API}/teeth_sub_comments`,{
+                method:"get",
+                headers:{
+                    patient_id:patient_id,
+                    clinic_id:localStorage.getItem("clinic_id"),
+                    img_no:img_no,
+                    // tooth_id:tooth_id,
+                    // comment_id:comment_id,
+                },
+             }).then((res)=>res.json())
+             .then((data)=>{
+                setsub_comments_arr(data)
+             })
         })
        
-    });
+     });
+
+
    
     
 
@@ -277,60 +295,60 @@ const add_sub_comment =()=>{
 
 document.querySelectorAll(".comment_card_body").forEach(e => {
      console.log("kids",  e.children[1].children[3].children[1]);
-    const btn = e.children[1].children[3].children[1]
+    const btn = e.children[1].children[4].children[1]
     const tooth_id = e.getAttribute("datatype")
     const comment = e.children[1].children[0].innerHTML
     const comment_id = e.getAttribute("data-id")
+    const date = new Date()
+   
 
    
 
-    e.children[1].children[3].children[1].click()
-
     btn.addEventListener("click",(el)=>{
         sub_commenthelper.push(sub_comment_st);
-        e.children[1].children[3].children[1].click()
-        fetch(`${import.meta.env.VITE_BACKEND_API}/teeth_comments_info`,{
-            method:"GET",
-            headers:{
-                patient_id:patient_id,
-                clinic_id:localStorage.getItem("clinic_id"),
-                img_no:img_no,
-                tooth_id:tooth_id,
-                comment_id:comment_id,
-            },
-         }).then((res)=>res.json())
-         .then((data)=>{
-            console.log("getdata",data[0].sub_comment);
-             if( data[0].sub_comment == null){
-                // alert("null")
-                //  sub_commenthelper.push(data[0].sub_comment)
-             }else{
-                JSON.parse(data[0].sub_comment).forEach(e => {
-                    // alert("array")
-                    sub_commenthelper.push(e)
-                });
-            }
+        // e.children[1].children[3].children[1].click()
+        // fetch(`${import.meta.env.VITE_BACKEND_API}/teeth_comments_info`,{
+        //     method:"GET",
+        //     headers:{
+        //         patient_id:patient_id,
+        //         clinic_id:localStorage.getItem("clinic_id"),
+        //         img_no:img_no,
+        //         tooth_id:tooth_id,
+        //         comment_id:comment_id,
+        //     },
+        //  }).then((res)=>res.json())
+        //  .then((data)=>{
+        //     console.log("getdata",data[0].sub_comment);
+        //      if( data[0].sub_comment == null){
+        //         // alert("null")
+        //         //  sub_commenthelper.push(data[0].sub_comment)
+        //      }else{
+        //         JSON.parse(data[0].sub_comment).forEach(e => {
+        //             // alert("array")
+        //             sub_commenthelper.push(e)
+        //         });
+        //     }
           
-         }).then((done)=>{
-            fetch(`${import.meta.env.VITE_BACKEND_API}/teeth_comments`,{
-                method:"PUT",
+        //  }).then((done)=>{
+            fetch(`${import.meta.env.VITE_BACKEND_API}/teeth_sub_comments`,{
+                method:"post",
                 headers:{"content-type":"application/json"},
                 body:JSON.stringify({
                     patient_id:patient_id,
                     clinic_id:localStorage.getItem("clinic_id"),
                     img_no:img_no,
                     tooth_id:tooth_id,
-                    // user:localStorage.getItem("token"),
-                    // data:date,
+                    user:localStorage.getItem("token"),
+                    date:date,
                     comment_id:comment_id,
-                    sub_comment:sub_commenthelper,
+                    sub_comment:sub_comment_st,
                 })
              }).then((res)=>res.json())
              .then((data)=>{
                setsub_comment_st("")
                setcomment_pop(false)
              })
-         })
+        //  })
 
         
 
@@ -425,14 +443,27 @@ const comment_dev = ()=>{
                                                   </div>
                                             </div>
                                             {/* <div>{e.sub_comment.forEach((f)=>{})}</div> */}
-                                                <div style={{display:"flex",flexDirection:"column",marginLeft:"10px",gap:"6px"}} >
-                                                    {JSON.parse(e.sub_comment)?.map((ele,t)=>{
+                                                 <div style={{display:"flex",flexDirection:"column",marginLeft:"10px",gap:"6px"}} > 
+                                                    {/* {JSON.parse(e.sub_comment)?.map((ele,t)=>{
                                                         return(
                                                                 <div style={{color:"grey"}} key={t} >{`replied: ${ele}`}</div> 
-                                                        )})}
+                                                        )})} */}
 
                                                         {/* <div style={{color:"grey"}} key={t} >{`replied: ${JSON.parse(e.sub_comment)[0]}`}</div>   */}
-                                                </div>
+                                                        
+                                                        {sub_comments_arr?.filter(elm => elm.comment_id == e.comments_id).map((ele,t)=>{
+                                                             return(
+                                                                <div>
+                                                                      <div style={{color:"grey"}} key={t} >{`${ele.user} replied: ${ele.sub_comment}`}</div> 
+                                                                      <div className='sub_comment_date_class'>{e.date.split("T")[0]}</div>
+                                                                </div>
+                                                              
+                                                            )
+                                                        })
+
+                                                        }
+
+                                                 </div> 
                                                 
                                            {add_subcomment&&
                                            <>
@@ -516,7 +547,8 @@ const comment_dev = ()=>{
                     // )
                 // })
                 }
-                {addedtooth_arr?.map((e,i)=>{
+                {!addedtooth_arr?
+                     addedtooth_arr?.map((e,i)=>{
                     console.log("table_under",addedtooth_arr.length);
                     if(addedtooth_arr.length == 0){
                         location.reload()
@@ -556,7 +588,46 @@ const comment_dev = ()=>{
                        </div>
                     )
                      }
+                }):
+                     table_under?.map((e,i)=>{
+                    console.log("table_under",e);
+                    return(
+                        <div className='table_data' id={`table_no${i}`} onClick={(e)=>{focus_mode(e)}} key={i} >
+                        <div style={{display:"flex",justifyContent:"center"}}>
+                            <div className='tooth_class'>12</div>
+                        </div>
+
+                        <div style={{display:"flex",justifyContent:"flex-start"}}>
+                            <div className='finding_table'>
+                                 <div >{e[0]}</div>
+                                <div className='tags_Dev'>
+                                    <div className="tagged_elem">ai</div>
+                                    {/* <div className="tagged_elem">{e[1]}</div> */}
+                                </div>
+                            </div>
+                        </div>
+                        
+                    
+                        <div className='rest_td'>
+                        {/* { watch_on?
+                            <AiOutlineStar size={21} className='icon_in_table' onClick={()=>{setwatch_on(!watch_on)}}/>:
+                            <AiFillStar size={21} className='icon_in_table' color='#FFDF00' onClick={()=>{setwatch_on(!watch_on)}}/>
+                            } */}
+                                <FaRegCheckCircle size={20} color="#4BB543" onClick={()=>{tempData[i][5] = true}} className='icon_in_table'/>
+                                <IoWarningOutline size={20} color=" #eed202" onClick={()=>{tempData[i][5] = false}} className='icon_in_table'/>
+                                <ImCancelCircle size={20} color="#B33A3A " onClickCapture={()=>{delete_dev()}} className='icon_in_table'/>
+                        </div>
+                        <div className='rest_td ' >.</div>
+                        <div style={{display:"flex",justifyContent:"space-around"}}>
+                        
+                            <BiCommentAdd size={24} className='icon_in_table' onClick={()=>{setcomment_pop(true)}} />
+                        </div>
+
+                       </div>
+                    )
                 })
+
+                
                 }
    
                </div>

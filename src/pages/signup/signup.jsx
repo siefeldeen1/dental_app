@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import OAuth2Login from 'react-simple-oauth2-login';
 import {MainContext} from '../../../utils/MainContext'
 import Button from '../../compounts/button/Button';
+import Input from '../../compounts/inputs/Input';
 
 
 function sigmup() {
@@ -23,6 +24,8 @@ function sigmup() {
       const [err, seterr] = useState(false)
       const{ email, setemail} = useContext(MainContext)
       const{ password, setpassword} = useContext(MainContext)
+      const{ first_name, setfirst_name} = useContext(MainContext)
+      const{ last_name, setlast_name} = useContext(MainContext)
       const [join_org, setjoin_org] = useState(true)
 
 
@@ -64,8 +67,10 @@ function sigmup() {
                         method:"POST",
                         headers:{"content-type":"application/json"},
                         body:JSON.stringify({
-                             email:email.value,
-                            password:password.value
+                            email:email.value,
+                            password:password.value,
+
+
                       })
                 
                     }).then((res)=>{
@@ -124,7 +129,11 @@ function sigmup() {
         <div className='body_forsignup'>
               <h2 style={{color:"white"}}>Sign up</h2>
 
-            
+              <div style={{display:"flex",alignItems:"center",width:"100%",gap:"20px"}}>
+                  <Input value={first_name} style={{padding:"13px 10px",borderRadius:"10px"}} onChange={(e)=>{setfirst_name(e.target.value)}}  label={"First name"} placeholder={"Enter your first name"}/>
+                  <Input value={last_name} style={{padding:"13px 10px",borderRadius:"10px"}} onChange={(e)=>{setlast_name(e.target.value)}}  label={"Last name"} placeholder={"Enter your last name"}/>
+             </div>
+
             <div className='label_inpt'>
                     <label htmlFor="">E-mail</label>
                     <div className='input_body'>

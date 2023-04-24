@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect,useState,useContext } from 'react'
 import './Aggregated.css'
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoPeople } from 'react-icons/io5';
@@ -9,6 +9,7 @@ import { FaTooth } from 'react-icons/fa';
 import { FaTeeth } from 'react-icons/fa';
 import { AiFillQuestionCircle } from 'react-icons/ai';
 import { ImTable } from 'react-icons/im';
+import {MainContext} from '../../../../utils/MainContext'
 import { GiToothbrush } from 'react-icons/gi';
 
 
@@ -16,6 +17,29 @@ import { GiToothbrush } from 'react-icons/gi';
 function Aggregated() {
 
   const [patients_numb, setpatients_numb] = useState()
+  const{added_date, setadded_date} = useContext(MainContext)
+  // const date = new Date
+  // console.log("date",date.getDate(),date.getMonth(),date.getFullYear());
+  var date = new Date();
+
+  var day = date.getDate()
+  var  month = date.getMonth() + 1
+  var  year = date.getFullYear()
+  var  hour = date.getHours()
+  var  min  = date.getMinutes();
+  
+  month = (month < 10 ? "0" : "") + month;
+  day = (day < 10 ? "0" : "") + day;
+  hour = (hour < 10 ? "0" : "") + hour;
+  min = (min < 10 ? "0" : "") + min;
+  
+  var today = year + "-" + month + "-" + day
+   
+  
+  
+
+  console.log("date",`${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`);
+  const [input_date, setinput_date] = useState(today)
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_API}/render_patients`,{
@@ -31,17 +55,23 @@ function Aggregated() {
 
       // setpatients(data)
     })
+    setadded_date(input_date)
 }, [])
 
   return (
     <div style={{width:"98%",margin:"0 auto"}}>
-        <div className='header_bar_agg'>
+        {/* <div className='header_bar_agg'>
             <div className='day_display_agg'>Today</div>
             <div className='date_changer_agg'>
                 <IoIosArrowBack/>
                 <div className='date_calender_agg'><AiOutlineCalendar/> Friday Mar 3</div>
                 <MdNavigateNext/>
             </div>
+        </div> */}
+
+        <div className='sec_part_header'>
+          <div className='title_sec_part'>{`Daily Patients ${input_date}`}</div>
+          <div><input value={input_date}  onChange={(e)=>{setinput_date(e.target.value);setadded_date(e.target.value)}} className='input_sec_part' type="date" /></div>
         </div>
 
         <div className='long_dev_agg' >
@@ -100,10 +130,7 @@ function Aggregated() {
         </div>
 
     <div className='sec_part_agg'>
-        <div className='sec_part_header'>
-          <div className='title_sec_part'>Daily Patients (02/10/2023)</div>
-          <div><input className='input_sec_part' type="date" /></div>
-        </div>
+       
 
         <div className='sec_part_wids'>
             <div className='wid_itself'>

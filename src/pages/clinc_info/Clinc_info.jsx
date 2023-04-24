@@ -45,7 +45,8 @@ function Clinc_info() {
 
     const{ email, setemail} = useContext(MainContext)
     const{ password, setpassword} = useContext(MainContext)
- 
+    const{ first_name, setfirst_name} = useContext(MainContext)
+    const{ last_name, setlast_name} = useContext(MainContext)
 
 const checker = ()=> {
   if (Business_name.length < 1){
@@ -111,14 +112,17 @@ const checker = ()=> {
               instagram:instagram,
               acc_email:email,
               acc_password:password,
+              first:first_name,
+              last:last_name,
               
           })
         
         }).then((res)=>res.json())
         .then((data)=>{
-              console.log("data212",data.clinic_id);
+              // console.log("data212",data);
               localStorage.setItem("clinic_name",data.clinic_name)
               localStorage.setItem("clinic_id",data.clinic_id)
+              localStorage.setItem("token",data.accessToken)
             }).then((redirect)=>{
               navigate('/')
              })

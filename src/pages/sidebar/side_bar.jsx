@@ -7,13 +7,25 @@ import { BiClinic  } from 'react-icons/bi';
 import { RiMoneyPoundCircleLine } from 'react-icons/ri';
 import { BsTelephone  } from 'react-icons/bs';
 import { CgSmartphoneChip } from 'react-icons/cg';
+import { BiLogOut } from 'react-icons/bi';
 import { BsFillClipboard2HeartFill } from 'react-icons/bs';
 import { useNavigate } from "react-router-dom";
 
 function side_bar() {
     const navigate = useNavigate();
+
+
+    const logout = ()=>{
+        localStorage.removeItem("clinic_id")
+        localStorage.removeItem("token")
+        localStorage.removeItem("clinic_name")
+        navigate('/Signup')
+    }
+
+
   return (
     <div className='side_bar_Class'>
+        <div className='side_bar_Classone' >
             <div className='side_bar_element' style={{marginTop:"20px"} } onClick={()=>{navigate("/Schedule")}}>
                 <MdOutlineEventNote size={22}/>
                 <div className='icon_name'>Schedule</div>
@@ -29,7 +41,7 @@ function side_bar() {
                 <div className='icon_name' >patient Dashboard</div>
             </div>
 
-            <div className='side_bar_element' onClick={()=>{navigate("/")}}>
+            <div className='side_bar_element' onClick={()=>{navigate("/resto_assist")}}>
                 <BiClinic  size={22}/>
                 <div className='icon_name'>Resto Assist</div>
             </div>
@@ -50,7 +62,16 @@ function side_bar() {
             </div>
 
           
+        </div>
+
+        <div>
+                <div className='side_bar_element' style={{marginTop:"20px"} } onClick={()=>{logout()}}>
+                        <BiLogOut size={22}/>
+                        <div className='icon_name'>Log out</div>
+                </div>
+        </div>
     </div>
+   
   )
 }
 

@@ -124,47 +124,8 @@ const submit = ()=>{
   //   const dataTransfer = new DataTransfer();
   //   dataTransfer.items.add(myFile);
   //   fileInput.files = (fileInput.files,dataTransfer.files)
-
-     for (let i = 0; i < document.querySelector("#input_files").files.length; i++) {
-      const selectedFile = document.querySelector("#input_files").files[i];
-      
-      console.log("files_lenght", document.querySelector("#input_files").files);
-
-      const formData = new FormData()
-      formData.append("image",selectedFile)
-    
-      console.log('selectedimgs',selectedFile.length);
-  
-
-      // fetch('http://13.234.81.186:5001/api/predict',{
-      fetch('https://engine.apture.ai:5001/api/predict',{
-        method: 'POST',
-        body: formData,
-        enctype:"multipart/form-data"
-        // If you add this, upload won't work
-        // headers: {
-        //   'Content-Type': 'multipart/form-data',
-        // }
-      }).then((res)=> res.json())
-      .then((data)=>{
-        console.log("data",data);
-        predect_arr.push(data)
-        
-      fetch(`${import.meta.env.VITE_BACKEND_API}/uploadImg`,{
-          method:"POST",
-          body: formData
-      }).then((res) => res.json())
-      .then((data)=>{
-          console.log(data.path);
-          // console.log("numbers",i);
-          arr.push(data.path)
-        //   if(i + 1 == document.querySelector("#input_files").files.length  ){
-        //     alert("done fetching")
-        //  }
-        if(i == document.querySelector("#input_files").files.length -1){
-          setTimeout(() => {
-            
-         
+    if(document.querySelector("#input_files").files.length == 0){
+      const date = new Date
           fetch(`${import.meta.env.VITE_BACKEND_API}/patient_details`,{
             method:"POST",
             headers:{"content-type":"application/json"},
@@ -188,7 +149,8 @@ const submit = ()=>{
               clinic_id:localStorage.getItem("clinic_id"),
               clinic_name: localStorage.getItem("clinic_name"),
               imgs:arr,
-              data:predect_arr
+              data:predect_arr,
+              added_date:date,
           })
         
         }).then((res)=>{
@@ -201,22 +163,102 @@ const submit = ()=>{
               seterr(true)
             }
             })
-          }, 10000)
-        }
-      })
-      }).then((submit)=>{
-            
-
-
-
-       
+    }else{
+      for (let i = 0; i < document.querySelector("#input_files").files.length; i++) {
+        const selectedFile = document.querySelector("#input_files").files[i];
+        
+        console.log("files_lenght", document.querySelector("#input_files").files);
+  
+        const formData = new FormData()
+        formData.append("image",selectedFile)
       
-      })
-
-      
-
+        console.log('selectedimgs',selectedFile.length);
+    
+  
+        // fetch('http://13.234.81.186:5001/api/predict',{
+        fetch('https://engine.apture.ai:5001/api/predict',{
+          method: 'POST',
+          body: formData,
+          enctype:"multipart/form-data"
+          // If you add this, upload won't work
+          // headers: {
+          //   'Content-Type': 'multipart/form-data',
+          // }
+        }).then((res)=> res.json())
+        .then((data)=>{
+          console.log("data",data);
+          predect_arr.push(data)
+          
+        fetch(`${import.meta.env.VITE_BACKEND_API}/uploadImg`,{
+            method:"POST",
+            body: formData
+        }).then((res) => res.json())
+        .then((data)=>{
+            console.log(data.path);
+            // console.log("numbers",i);
+            arr.push(data.path)
+          //   if(i + 1 == document.querySelector("#input_files").files.length  ){
+          //     alert("done fetching")
+          //  }
+          if(i == document.querySelector("#input_files").files.length -1){
+            setTimeout(() => {
+              
+           const date = new Date
+            fetch(`${import.meta.env.VITE_BACKEND_API}/patient_details`,{
+              method:"POST",
+              headers:{"content-type":"application/json"},
+              body:JSON.stringify({
+                Name :Name,
+                last_name:last_nom,
+                email:email,
+                phone:phone,
+                country:selectedCountry.name,
+                state:selectedState.name,
+                city:selectedCity.name ,
+                zip_code:zip_code,
+                birth:birth,
+                emergency:emergency,
+                preference:preference,
+                gender:gender,
+                guardian:guardian,
+                patient_id:patient_id,
+                notes:notes,
+                address:address,
+                clinic_id:localStorage.getItem("clinic_id"),
+                clinic_name: localStorage.getItem("clinic_name"),
+                imgs:arr,
+                data:predect_arr,
+                added_date:date,
+            })
+          
+          }).then((res)=>{
+              // console.log('llll',res.status);
+              if(res.status == 200 ){
+               alert("works")
+               setloader(false)
+               location.reload();
+              }else {
+                seterr(true)
+              }
+              })
+            }, 10000)
+          }
+        })
+        }).then((submit)=>{
+              
+  
+  
+  
+         
+        
+        })
+  
+        
+  
+      }
+      setloader(true)
     }
-    setloader(true)
+
     // setTimeout(() => {
       console.log("arr12312",arr);
 
@@ -307,8 +349,7 @@ useEffect(() => {
 }, [])
 
 const delete_patient = ()=>{
-  setTimeout(() => {
-    document.querySelectorAll(".action_row").forEach(e => {
+      document.querySelectorAll(".action_row").forEach(e => {
      
       const name_value = e.children[8].children[0].innerHTML
       const last_name_value = e.children[9].children[0].innerHTML
@@ -316,6 +357,7 @@ const delete_patient = ()=>{
       const birth_value = e.children[1].children[0].innerHTML
   
         const delete_btn = e.children[16].children[0].children[1]
+        // console.log("this",e.children[16]);
         const Update_btn = e.children[16].children[0].children[0]
 
         delete_btn.addEventListener("click",()=>{
@@ -344,7 +386,7 @@ const delete_patient = ()=>{
         })
      
     });
-  }, 1000);
+
 
 }
 
@@ -650,8 +692,8 @@ const delete_patient = ()=>{
                           <td><abbr title={e["state"]}>{e["state"]}</abbr></td>
                           <td><abbr title={e["zip_code"]}>{e["zip_code"]}</abbr></td>
                           <td ><div className='btn_cell'>
-                              <Button text={"Update"}/>
-                              <Button style={{background:"transparent",border:"1px solid #FF0000",color:"#FF0000"}} text={"Delete"}/>
+                              <Button onclick={delete_patient} text={"Update"}/>
+                              <Button onclick={delete_patient} style={{background:"transparent",border:"1px solid #FF0000",color:"#FF0000"}} text={"Delete"}/>
                             </div></td>
                         </tr>
                         </>

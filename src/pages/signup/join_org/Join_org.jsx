@@ -28,6 +28,9 @@ function Join_org() {
 
 const [clinic_name, setclinic_name] = useState()
 const [clinic_id, setclinic_id] = useState()
+const [first_name, setfirst_name] = useState()
+const [last_name, setlast_name] = useState()
+
 
   const showpass1 =()=>{
     var x = document.getElementById("pass1");
@@ -68,10 +71,12 @@ const submetter = ()=>{
                 method:"POST",
                 headers:{"content-type":"application/json"},
                 body:JSON.stringify({
-                     email:email.value,
+                    email:email.value,
                     password:password.value,
                     clinic_id:clinic_id,
                     clinic_name:clinic_name,
+                    first:first_name,
+                    last:last_name,
               })
         
             }).then((res)=>{
@@ -127,7 +132,10 @@ window.open(`${import.meta.env.VITE_BACKEND_API}/auth/microsoft`, "_self")
       <div className='body_forsignup'>
             <h2 style={{color:"white"}}>Sign up</h2>
 
-          
+            <div style={{display:"flex",alignItems:"center",width:"100%",gap:"20px"}}>
+                  <Input value={first_name} style={{padding:"13px 10px",borderRadius:"10px"}} onChange={(e)=>{setfirst_name(e.target.value)}}  label={"First name"} placeholder={"Enter your first name"}/>
+                  <Input value={last_name} style={{padding:"13px 10px",borderRadius:"10px"}} onChange={(e)=>{setlast_name(e.target.value)}}  label={"Last name"} placeholder={"Enter your last name"}/>
+             </div>
           <div className='label_inpt'>
                   <label htmlFor="">E-mail</label>
                   <div className='input_body'>
@@ -181,8 +189,8 @@ window.open(`${import.meta.env.VITE_BACKEND_API}/auth/microsoft`, "_self")
                  
             </div>
                  <div style={{display:"flex",alignItems:"center",width:"100%",gap:"20px"}}>
-                  <Input value={clinic_name} onChange={(e)=>{setclinic_name(e.target.value)}}  label={"Organization name"} placeholder={"Enter the Organization name"}/>
-                  <Input value={clinic_id} onChange={(e)=>{setclinic_id(e.target.value)}}  label={"Organization id"} placeholder={"Enter the Organization id"}/>
+                  <Input style={{padding:"13px 10px",borderRadius:"10px"}} value={clinic_name} onChange={(e)=>{setclinic_name(e.target.value)}}  label={"Organization name"} placeholder={"Enter the Organization name"}/>
+                  <Input style={{padding:"13px 10px",borderRadius:"10px"}} value={clinic_id} onChange={(e)=>{setclinic_id(e.target.value)}}  label={"Organization id"} placeholder={"Enter the Organization id"}/>
 
                  </div>
 
