@@ -29,7 +29,7 @@ function View_imgs() {
             </div>
         </header>
             <div className='view_imgs_grid'>
-                {JSON.parse(view_Imgs).map((e,i)=>{
+                {JSON.parse(view_Imgs)?.map((e,i)=>{
                     console.log('adssada',e);
                     return(
                         <img key={i} datatype={`${i}`} onClick={(e)=>{onclick(e)}} className="imgs_inview_imgs" src={`${import.meta.env.VITE_BACKEND_API}/${e}`} alt="" />
