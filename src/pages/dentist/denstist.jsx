@@ -238,6 +238,7 @@ return()=>{
                                 patient_name:data[0].name,
                                 patient_id:patient_id,
                                 clinic_id:localStorage.getItem("clinic_id"),
+                                clinic_name:localStorage.getItem("clinic_name"),
                                 img_no:img_no,
                                 length:Object.values(JSON.parse(data[0].data)[img_no].Output).length,
                                 // date:date,
@@ -434,6 +435,7 @@ return()=>{
                                 patient_name:data[0].name,
                                 patient_id:patient_id,
                                 clinic_id:localStorage.getItem("clinic_id"),
+                                clinic_name:localStorage.getItem("clinic_name"),
                                 img_no:img_no,
                                 length:Object.values(JSON.parse(data[0].data)[img_no].Output).length,
                                 // date:date,
@@ -486,6 +488,7 @@ const delete_findings = ()=>{
                 headers:{
                     patient_id:patient_id,
                     clinic_id:localStorage.getItem("clinic_id"),
+                    clinic_name:localStorage.getItem("clinic_name"),
                     img_no:img_no,
                     tooth_id:data_type_id,
                 },
@@ -616,10 +619,10 @@ const next_arr =()=>{
         const img_no = pathname.split("_")[1].split(":")[1]
         const parsed_img_no = parseInt(img_no)
 
-        if(parsed_img_no+1 < all_img.length ){
-                navigate(`/${patient_id}_img:${parsed_img_no+1}`)
-                location.reload()       
-        }
+        // if(parsed_img_no+1 < all_img.length ){
+        //         navigate(`/${patient_id}_img:${parsed_img_no+1}`)
+        //         location.reload()       
+        // }
       
       }
       
@@ -638,10 +641,10 @@ const next_arr =()=>{
         const img_no = pathname.split("_")[1].split(":")[1]
         const parsed_img_no = parseInt(img_no)
 
-        if(parsed_img_no - 1 > -1){
-                navigate(`/${patient_id}_img:${parsed_img_no-1}`)
-                location.reload()
-        }
+        // if(parsed_img_no - 1 > -1){
+        //         navigate(`/${patient_id}_img:${parsed_img_no-1}`)
+        //         location.reload()
+        // }
       }
 
 

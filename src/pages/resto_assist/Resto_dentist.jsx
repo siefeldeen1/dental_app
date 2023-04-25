@@ -164,6 +164,7 @@ const delete_findings = ()=>{
              headers:{
                  patient_id:patient_id,
                  clinic_id:localStorage.getItem("clinic_id"),
+                 clinic_name:localStorage.getItem("clinic_name"),
                  img_no:img_no,
                  tooth_id:data_type_id,
              },

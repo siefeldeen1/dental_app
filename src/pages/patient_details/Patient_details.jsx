@@ -44,7 +44,7 @@ function Patient_details() {
   const [missing_last, setmissing_last] = useState(false)
 
   const [data_arr, setdata_arr] = useState([])
-  const [search_res, setsearch_res] = useState(false)
+  const [search_res, setsearch_res] = useState(true)
 
   const{ update_name, setupdate_name} = useContext(MainContext)
   const{ update_last_name, setupdate_last_name} = useContext(MainContext)
@@ -334,7 +334,8 @@ const onchange= ()=>{
       name:Name,
       last_name:last_nom,
       phone:phone,
-      birth:birth
+      birth:birth, 
+      clinic_name:localStorage.getItem("clinic_name")
     },   
   }).then((res)=>res.json()
   .then((data)=>  { setdata_arr(data),console.log();}  
@@ -345,7 +346,21 @@ const onchange= ()=>{
 }
 
 useEffect(() => {
- 
+  fetch(`${import.meta.env.VITE_BACKEND_API}/Search`,{
+    method:"get",
+    headers:{
+      name:Name,
+      last_name:last_nom,
+      phone:phone,
+      birth:birth, 
+      clinic_name:localStorage.getItem("clinic_name")
+    },   
+  }).then((res)=>res.json()
+  .then((data)=>  { setdata_arr(data),console.log();}  
+  
+      
+  )
+  )
 }, [])
 
 const delete_patient = ()=>{
@@ -452,7 +467,7 @@ const delete_patient = ()=>{
                                             </select>
                                   </div>
                                     {/* <Input  value={gender} onChange={(e)=>{setgender(e.target.value)}} label={"Gender"} placeholder={"Enter your Gender"}/> */}
-                                    <Input type={"number"}  value={patient_id} onChange={(e)=>{setpatient_id(e.target.value)}} label={"Patient Id"} placeholder={"Enter your Patient Id"}/>
+                                    {/* <Input type={"number"}  value={patient_id} onChange={(e)=>{setpatient_id(e.target.value)}} label={"Patient Id"} placeholder={"Enter your Patient Id"}/> */}
                                 </div>
 
                           

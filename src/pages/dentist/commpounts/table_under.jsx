@@ -64,6 +64,7 @@ function table_under({table_under,patient_name}) {
                 headers:{
                     patient_id:patient_id,
                     clinic_id:localStorage.getItem("clinic_id"),
+                    clinic_name:localStorage.getItem("clinic_name"),
                     img_no:img_no,
               
                 },
@@ -79,6 +80,11 @@ function table_under({table_under,patient_name}) {
             // }
 
     }, [])
+
+    // setInterval(() => {
+    //     console.log("import",!addedtooth_arr,addedtooth_arr == undefined, addedtooth_arr.length ==0 );
+    
+    // }, 1000);
     
      let commenttooth_arr_helper = []
     let sub_commenthelper=[]
@@ -115,14 +121,22 @@ const save_tooth =()=>{
                 patient_name:patient_name[0],
                 patient_id:patient_id,
                 clinic_id:localStorage.getItem("clinic_id"),
+                clinic_name:localStorage.getItem("clinic_name"),
                 img_no:img_no,
                 date:date,
                 })
-            }).then((res)=>res.json())
-            .then((data)=>{
-                location.reload()
-                // console.log(data);
+            }).then((res)=>{
+                if(res.status == 200){
+                    res.json()
+                    .then((data)=>{
+                        location.reload()
+                        // console.log(data);
+                    })
+                }else{
+                    alert("error happened")
+                }
             })
+           
 
 }
 
@@ -244,6 +258,7 @@ const commnet = ()=>{
                 headers:{
                     patient_id:patient_id,
                     clinic_id:localStorage.getItem("clinic_id"),
+                    clinic_name:localStorage.getItem("clinic_name"),
                     img_no:img_no,
                     tooth_id:e.getAttribute("datatype"),
                 },
@@ -270,6 +285,7 @@ const commnet = ()=>{
                 headers:{
                     patient_id:patient_id,
                     clinic_id:localStorage.getItem("clinic_id"),
+                    clinic_name:localStorage.getItem("clinic_name"),
                     img_no:img_no,
                     // tooth_id:tooth_id,
                     // comment_id:comment_id,
@@ -336,6 +352,7 @@ document.querySelectorAll(".comment_card_body").forEach(e => {
                 body:JSON.stringify({
                     patient_id:patient_id,
                     clinic_id:localStorage.getItem("clinic_id"),
+                    clinic_name:localStorage.getItem("clinic_name"),
                     img_no:img_no,
                     tooth_id:tooth_id,
                     user:localStorage.getItem("token"),
@@ -382,6 +399,7 @@ const comment_dev = ()=>{
         body:JSON.stringify({
             patient_id:patient_id,
             clinic_id:localStorage.getItem("clinic_id"),
+            clinic_name:localStorage.getItem("clinic_name"),
             img_no:img_no,
             tooth_id:comment_tooth_id,
             user:localStorage.getItem("token"),
@@ -547,7 +565,7 @@ const comment_dev = ()=>{
                     // )
                 // })
                 }
-                {!addedtooth_arr?
+                {!addedtooth_arr?.length ==0 ?
                      addedtooth_arr?.map((e,i)=>{
                     console.log("table_under",addedtooth_arr.length);
                     if(addedtooth_arr.length == 0){

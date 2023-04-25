@@ -534,7 +534,7 @@ table {
         position: absolute;
         bottom: 60px;
         background-color: #2F313F;
-    
+        width: 100%;
     }
 
     .img_scroller_div{

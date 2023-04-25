@@ -56,7 +56,9 @@ function Home_patient_detials() {
         name:update_name,
         last_name:update_last_name,
         phone:update_phone,
-        birth:update_birth
+        birth:update_birth,
+        clinic_name:localStorage.getItem("clinic_name")
+
       },   
     }).then((res)=>res.json()
     .then((data)=>  { setdata_arr(data),console.log('data_arr',data[0]["city"]);

@@ -117,15 +117,24 @@ const checker = ()=> {
               
           })
         
-        }).then((res)=>res.json())
-        .then((data)=>{
+        }).then((res)=>{
+          if(res.status ==200){
+            res.json()
+            .then((data)=>{
               // console.log("data212",data);
               localStorage.setItem("clinic_name",data.clinic_name)
               localStorage.setItem("clinic_id",data.clinic_id)
               localStorage.setItem("token",data.accessToken)
             }).then((redirect)=>{
-              navigate('/')
+               navigate('/')
              })
+
+          }else{
+            alert("error")
+          }
+        }
+       )
+        
           }
         
         // }

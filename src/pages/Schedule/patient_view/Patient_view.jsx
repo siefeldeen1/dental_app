@@ -45,6 +45,7 @@ const user_Imgs= ()=>{
         method:"GET",
         headers:{
           clinic_id:clinic_id,
+          clinic_name:localStorage.getItem("clinic_name"),
           patient_id:patient_id,
           first:first,
           last:last
@@ -96,7 +97,7 @@ const user_Imgs= ()=>{
                               {/* <td><AiFillIdcard/> 82202</td> */}
                               <td>{e["name"]}</td>
                               <td>{e["last_name"]}</td>
-                              <td></td>
+                              <td>{e["added_date"].split("T")[0]}</td>
                               {/* <td>MODERATE2</td> */}
                               {/* <td ><div className='findings_table'> 2 Surface Restoration - Interproximal Caries - #14,21</div></td> */}
                               <td><div className='img_radiography' onClickCapture={user_Imgs} >Images</div> </td>
