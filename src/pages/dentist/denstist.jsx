@@ -200,10 +200,7 @@ useEffect(() => {
 //   ctx.drawImage(img,0,0);
  
 //   ctx.fillText('Hello world', 50, 90);
-
-return()=>{  
-        // fetch(`https://dentail.onrender.com/render_imgs`,{
-       fetch(`${import.meta.env.VITE_BACKEND_API}/render_imgs`,{
+fetch(`${import.meta.env.VITE_BACKEND_API}/render_imgs`,{
         method:"get",
         headers:{
           clinic_id:localStorage.getItem("clinic_id"),
@@ -255,6 +252,9 @@ return()=>{
 
         // settable_under(Object.values(JSON.parse(data[0].data)[img_no].Output))
       })
+return()=>{  
+        // fetch(`https://dentail.onrender.com/render_imgs`,{
+     
 }
 
 
